@@ -3,10 +3,11 @@ PyGG2-3.0 - What is it?
 
 PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which is a python2 port of [Gang Garrison 2](http://ganggarrison.com/).
 
-Why is this still written in python 2.7?
+
+Why is this not working?
 ------------
-Because I have not updated all of it yet.
-This is alot of work!
+This is alot of work, so I probably didnt get there yet.
+As of now, I'm looking for alternatives to pySFML, because it has terrible support for windows nowadays.
 
 Why are you doing this? The game has been dead for 7 years!
 ------------
@@ -18,7 +19,7 @@ Dependencies
 
 PyGG2-3.0 requires the following dependencies, in addition to Python 3.x:
 
-* [pySFML ](https://pypi.org/project/sfml/)
+* [pySFML ](https://pypi.org/project/sfml/) 
 * [Python Imaging Library](https://pypi.org/project/Pillow/)
 * PyGG2-3.0 bitmask extension (compile with `python make.py build`, with `gcc` in path)
 
