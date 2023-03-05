@@ -7,7 +7,7 @@ PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which i
 Why is this not working?
 ------------
 This is alot of work, so I probably didnt get there yet.
-As of now, I'm looking for alternatives to pySFML, because it has terrible support for windows nowadays.
+As of now, I'm looking for alternatives to pySFML, because it has terrible support for windows nowadays, and rewriting that code is not easy.
 
 Why are you doing this? The game has been dead for 7 years!
 ------------
