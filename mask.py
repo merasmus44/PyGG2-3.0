@@ -2,7 +2,7 @@ import mask_extension._mask
 import Image
 
 import zipfile
-import cStringIO
+import io
 
 Mask = mask_extension._mask.Mask
 

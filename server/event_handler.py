@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys
@@ -44,7 +44,7 @@ def Client_Inputstate(networker, game, state, senderplayer, event):
 
 def Client_Event_Disconnect(networker, game, state, senderplayer, event):
     player = state.players[senderplayer.id]
-    print(player.name +" has disconnected")
+    print((player.name +" has disconnected"))
     senderplayer.destroy(networker, game, state)
 
 # Gather the functions together to easily be called by the event ID

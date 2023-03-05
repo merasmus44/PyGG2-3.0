@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys
@@ -9,7 +9,7 @@ import socket
 import constants
 import networking.packet
 import networking.event_serialize
-import event_handler
+from . import event_handler
 
 class Networker(object):
     def __init__(self, server_address, client):
@@ -79,7 +79,7 @@ class Networker(object):
             
             # Check whether the packet is even new enough
             if packet.sequence <= self.client_acksequence:
-                print("Old packet:", packet.time, game.current_state.time)
+                print(("Old packet:", packet.time, game.current_state.time))
                 # No need to even consider this packet
                 return
 
@@ -95,7 +95,7 @@ class Networker(object):
                     if packet.time < game.old_client_states[0].time:
                         # This packet is extremely old
                         # This shouldn't actually ever happen
-                        print("Packet received that is not in game.old_client_states!\nPacket time: {0}\ngame.old_client_states: {1}".format(packet.time, [i.time for i in game.old_client_states]))
+                        print(("Packet received that is not in game.old_client_states!\nPacket time: {0}\ngame.old_client_states: {1}".format(packet.time, [i.time for i in game.old_client_states])))
                         state = game.old_client_states[0].copy()
                         state.update_all_objects(game, packet.time - state.time)
     
@@ -116,7 +116,7 @@ class Networker(object):
                     d_time = (packet.time - states[0].time) * (states[1].time - states[0].time)
                     if not(0 <= d_time <= 1):
                         if abs(d_time) > 0.001:
-                            print("This should not happen!\nd_time:{0}\ntime:{1}\nstates[0].time:{2}\nstates[1].time:{3}\n\nold_client_states:{4}\n\n\n".format(d_time, packet.time, states[0].time, states[1].time, [i.time for i in game.old_client_states]))
+                            print(("This should not happen!\nd_time:{0}\ntime:{1}\nstates[0].time:{2}\nstates[1].time:{3}\n\nold_client_states:{4}\n\n\n".format(d_time, packet.time, states[0].time, states[1].time, [i.time for i in game.old_client_states])))
                         if d_time < 0:
                             d_time = 0
                         if d_time > 1:
@@ -157,7 +157,7 @@ class Networker(object):
                     game.current_state = state.copy()
                 # otherwise drop the packet
                 else:
-                    print("RECEIVED PACKET NOT FROM ACTUAL SERVER ADDRESS:\nActual Server Address:"+str(self.server_address)+"\nPacket Address:"+str(sender))
+                    print(("RECEIVED PACKET NOT FROM ACTUAL SERVER ADDRESS:\nActual Server Address:"+str(self.server_address)+"\nPacket Address:"+str(sender)))
                     continue
 
             # ack the packet

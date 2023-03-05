@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 import sfml
 
@@ -7,17 +7,17 @@ import constants
 
 import function
 
-import map_renderer
-import character_renderer
-import weapon_renderer
-import projectile_renderer
-import sentry_renderer
+from . import map_renderer
+from . import character_renderer
+from . import weapon_renderer
+from . import projectile_renderer
+from . import sentry_renderer
 #import spectator
 import engine.character
 import engine.weapon
 import engine.projectile
 import engine.sentry
-import hud_renderer
+from . import hud_renderer
 
 class GameRenderer(object):
     def __init__(self, client):
@@ -166,7 +166,7 @@ class GameRenderer(object):
         self.maprenderer.render(self, self.interpolated_state)
         # draw entities
         self.rendering_stack = []
-        for entity in self.interpolated_state.entities.values():
+        for entity in list(self.interpolated_state.entities.values()):
             self.rendering_stack.append(entity)
 
         self.rendering_stack.sort(key=lambda entityobject: self.renderers[type(entityobject)].depth) # Reorder by depth attribute

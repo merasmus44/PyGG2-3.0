@@ -1,7 +1,7 @@
-from __future__ import division, print_function
+
 
 import constants
-import databuffer
+from . import databuffer
 
 clientevents = {}
 serverevents = {}

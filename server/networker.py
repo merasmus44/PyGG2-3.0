@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 # add our main folder as include dir
 import sys
 sys.path.append("../")
@@ -9,8 +9,8 @@ import function
 import networking.packet
 import networking.databuffer
 import networking.event_serialize
-import event_handler
-import player
+from . import event_handler
+from . import player
 
 class Networker(object):
     def __init__(self, port):
@@ -26,7 +26,7 @@ class Networker(object):
 
     def update(self, server, game, frametime):
         # update everyone
-        for address, player_obj in self.players.items():
+        for address, player_obj in list(self.players.items()):
             # Give them the new events
             for event in self.sendbuffer:
                 player_obj.events.append((player_obj.sequence, event))
@@ -41,7 +41,7 @@ class Networker(object):
     def generate_snapshot_update(self, state):
         snapshotbuffer = networking.databuffer.Buffer()
 
-        for playerid, player_obj in state.players.items():
+        for playerid, player_obj in list(state.players.items()):
             player_obj.serialize_input(snapshotbuffer)
             try:
                 character = state.entities[player_obj.character_id]
@@ -62,7 +62,7 @@ class Networker(object):
     
         statebuffer.write("B", len(state.players))
 
-        for player_id, player_obj in state.players.items():
+        for player_id, player_obj in list(state.players.items()):
             try:
                 current_class = state.entities[player_obj.character_id].__class__
                 current_class = function.convert_class(current_class)
@@ -115,7 +115,7 @@ class Networker(object):
                             break
                     except KeyError:
                         # Invalid event; ignore
-                        print("WARNING: Client sent invalid event:", type(event), event.eventid)
+                        print(("WARNING: Client sent invalid event:", type(event), event.eventid))
 
             # or if someone wants to shake hands
             elif (packet.events[0])[1].eventid == constants.EVENT_HELLO:
@@ -124,7 +124,7 @@ class Networker(object):
                     newplayer = player.Player(self, game, event.name, sender)
                     newplayer.name = event.name
 
-                    for player_obj in self.players.values():
+                    for player_obj in list(self.players.values()):
                         if player_obj == newplayer:
                             self.service_new_player(server, game, newplayer)
                         else:

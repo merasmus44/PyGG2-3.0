@@ -1,11 +1,11 @@
-from __future__ import division, print_function
+
 
 import math
 import sfml
 import random
 
 import function
-import spritefont
+from . import spritefont
 import constants
 
 class BuildingSentryRenderer(object):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys, uuid
@@ -9,8 +9,8 @@ sys.path.append("../")
 import precision_timer, time
 import engine.game
 import constants
-import networker
-import lobby
+from . import networker
+from . import lobby
 import json
 
 # DEBUG ONLY
@@ -38,7 +38,7 @@ class Server(object):
         try:
             file = open(self.map_rotation, 'r')
         except IOError:
-            print("No map rotation file named {0} found! Exiting.".format(self.map_rotation))
+            print(("No map rotation file named {0} found! Exiting.".format(self.map_rotation)))
             sys.exit(1)
         # ignore any line starting with a #
         self.game.map_rotation =  [line.rstrip() for line in file.readlines() if not line.startswith("#")]
@@ -53,7 +53,7 @@ class Server(object):
         # time tracking
         self.clock = precision_timer.Clock()
 
-        print("Hosting " + str(self.name) + " on port " + str(self.port) + " with password " + "\"" + str(self.password) + "\"")
+        print(("Hosting " + str(self.name) + " on port " + str(self.port) + " with password " + "\"" + str(self.password) + "\""))
 
         self.save_config()
 

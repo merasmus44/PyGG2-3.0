@@ -1,10 +1,10 @@
-from __future__ import division, print_function
+
 
 import constants
 import math
 import sfml
 import function
-import spritefont
+from . import spritefont
 
 class ClassRenderer(object):
     def __init__(self):

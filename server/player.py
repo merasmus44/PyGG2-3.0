@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys
@@ -12,7 +12,7 @@ class Player(object):
     def __init__(self, networker, game, name, address):
         # generate id
         potentialids = set(range(len(networker.players) + 1))
-        takenids = {player.id for player in networker.players.values()}
+        takenids = {player.id for player in list(networker.players.values())}
         self.id = (potentialids - takenids).pop()
 
         # communication data

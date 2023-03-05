@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 # every entity should inherit from this
 class Entity(object):

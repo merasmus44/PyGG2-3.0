@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 import math
 
 import function
-import entity
-import weapon
+from . import entity
+from . import weapon
 import mask
 
 class Character(entity.MovingObject):

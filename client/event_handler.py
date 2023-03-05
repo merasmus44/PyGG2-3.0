@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys
@@ -39,7 +39,7 @@ def Server_Event_Spawn(client, networker, game, state, event):
     player.spawn(game, state)
 
 def Server_Snapshot_Update(client, networker, game, state, event):
-    for player in state.players.values():
+    for player in list(state.players.values()):
         player.deserialize_input(event.internalbuffer)
         
         try:
@@ -65,7 +65,7 @@ def Server_Full_Update(client, networker, game, state, event):
 
 def Server_Event_Disconnect(client, networker, game, state, event):
     player = state.players[event.playerid]
-    print (player.name +" has disconnected")
+    print((player.name +" has disconnected"))
     player.destroy(game, state)
 
 def Server_Event_Fire_Primary(client, networker, game, state, event):

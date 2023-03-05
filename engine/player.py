@@ -1,7 +1,7 @@
-from __future__ import division, print_function
+
 
 import constants
-import character
+from . import character
 import function
 from networking import event_serialize
 

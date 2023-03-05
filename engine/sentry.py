@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
 
-import entity
+
+from . import entity
 import mask
-import character
+from . import character
 import math
 import function
 
@@ -114,7 +114,7 @@ class Sentry(entity.MovingObject):
         if self.hp <= 0:
             self.destroy(state)
         self.target_queue = [] #clear the list
-        for obj in state.entities.values():
+        for obj in list(state.entities.values()):
                 if isinstance(obj, character.Character) and math.hypot(self.x-obj.x,self.y - obj.y) <= self.detection_radius:
                     target_tuple = (obj, math.hypot(self.x-obj.x,self.y - obj.y))
                     self.target_queue.append(target_tuple)

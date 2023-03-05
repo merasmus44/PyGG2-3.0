@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 import math
 import random
 
 import function
-import entity
-import projectile
-import sentry
+from . import entity
+from . import projectile
+from . import sentry
 from networking import event_serialize
 
 # abstract class, don't directly instantiate
@@ -245,7 +245,7 @@ class Revolver(Weapon):
     def fire_secondary(self, game, state):
         owner = state.entities[self.owner_id]
         owner.cloaking = not owner.cloaking# Any ideas how to add a good gradient?
-        print("Cloaking: ", owner.cloaking, "| is very unresponsive because it doesn't check for pressing, just whether RMB is being held.")
+        print(("Cloaking: ", owner.cloaking, "| is very unresponsive because it doesn't check for pressing, just whether RMB is being held."))
 
 class Blade(Weapon):
     maxammo = 4

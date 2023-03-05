@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 import math
 
-import map
-import gamestate
+from . import map
+from . import gamestate
 import function
 import constants
 

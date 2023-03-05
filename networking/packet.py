@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 # add our main folder as include dir
 import sys
 sys.path.append("../")
 
-import event_serialize
+from . import event_serialize
 import constants
-import databuffer
+from . import databuffer
 
 class Packet(object):
     def __init__(self, sender):

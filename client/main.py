@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 import precision_timer
 import sfml
@@ -10,7 +10,7 @@ import engine.game, engine.player
 import constants
 import networking
 import time
-import input_handler
+from . import input_handler
 
 # handler for when client is in game
 class GameClientHandler(Handler):
@@ -30,7 +30,7 @@ class GameClientHandler(Handler):
         else:
             self.server_ip = str(self.manager.config.setdefault('server_ip', '127.0.0.1'))
             self.server_port = str(self.manager.config.setdefault('server_port', 8190))
-        print("Trying to connect to " + str(self.server_ip) + " at port: " + str(self.server_port))
+        print(("Trying to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))
 
         # Create the networking-handler
         self.networker = networker.Networker((self.server_ip, int(self.server_port)), self) # FIXME: Remove these values, and replace with something easier.
@@ -97,8 +97,8 @@ class GameClientHandler(Handler):
                         elif event.code == sfml.window.Keyboard.DOWN:
                             self.game.vertical += 1
                         elif event.code == sfml.window.Keyboard.L_SHIFT:
-                            print("HORIZONTAL OFFSET = " + str(self.game.horizontal))
-                            print("VERTICAL OFFSET = " + str(self.game.vertical))
+                            print(("HORIZONTAL OFFSET = " + str(self.game.horizontal)))
+                            print(("VERTICAL OFFSET = " + str(self.game.vertical)))
 
                 # handle input if window is focused
                 if self.window_focused:
@@ -176,7 +176,7 @@ class GameClientHandler(Handler):
                 #self.window.title = "PyGG2 - Not Connected %dsecs" % (self.timeout_accumulator)
                 #Finally, if the server is not reachable, end everything.
                 if self.timeout_accumulator > constants.CONNECTION_TIMEOUT:
-                    print("Unable to connect to " + str(self.server_ip) + " at port: " + str(self.server_port))
+                    print(("Unable to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))
                     return (False) #exit
                 time.sleep(max(frametime, 0.25)) # Slow down the execution rate
         self.cleanup()

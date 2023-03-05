@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
+
 
 import math
 import random
 
-import entity
-import character
+from . import entity
+from . import character
 import function
 import mask
 import constants
@@ -177,7 +177,7 @@ class Rocket(entity.MovingObject):
 
     def destroy(self, game, state, frametime):
         if not self.max_flight_time - self.flight_time < self.fade_time:
-            for obj in state.entities.values():
+            for obj in list(state.entities.values()):
                 if isinstance(obj, character.Character) and math.hypot(self.x - obj.x, self.y - obj.y) < self.blastradius:
 
                     # w and h are the width and height of the collision mask of the character
@@ -279,7 +279,7 @@ class Mine(entity.MovingObject):
         self.flight_time = 0
 
     def destroy(self, game, state):
-        for obj in state.entities.values():
+        for obj in list(state.entities.values()):
             if isinstance(obj, character.Character) and math.hypot(self.x - obj.x, self.y - obj.y) < self.blastradius:
 
                 # w and h are the width and height of the collision mask of the character

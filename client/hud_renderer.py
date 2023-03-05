@@ -1,9 +1,9 @@
-from __future__ import division, print_function
+
 
 import math
 
 import function
-import spritefont
+from . import spritefont
 import sfml
 import engine.weapon
 import constants
