@@ -8,6 +8,11 @@ Why is this still written in python 2.7?
 Because I have not updated all of it yet.
 This is alot of work!
 
+Why are you doing this? The game has been dead for 7 years!
+------------
+Because it would be a cool project.
+Also in the hopes that this will help revive the game.
+
 Dependencies
 ------------
 
