@@ -3,6 +3,11 @@ PyGG2-3.0 - What is it?
 
 PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which is a python2 port of [Gang Garrison 2](http://ganggarrison.com/).
 
+Why is this still written in python 2.7?
+------------
+Because I have not updated all of it yet.
+cmon man I have school to do!
+
 Dependencies
 ------------
 
