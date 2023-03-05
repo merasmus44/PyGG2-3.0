@@ -6,7 +6,7 @@ PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which i
 Why is this still written in python 2.7?
 ------------
 Because I have not updated all of it yet.
-cmon man I have school to do!
+This is alot of work!
 
 Dependencies
 ------------
