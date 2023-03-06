@@ -24,5 +24,4 @@ jobs:
         echo tried to build
     - name: Test with pytest
       run: |
-        conda install pytest
-        pytest
+        python make.py testclient
