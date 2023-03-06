@@ -24,6 +24,8 @@ jobs:
     - name: Try to compile extentions
       run: |
         python make.py build
+    - name: list
+      run: ls
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v3
       with:
