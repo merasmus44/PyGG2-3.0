@@ -25,7 +25,7 @@ jobs:
       run: |
         python make.py build
     - name: list
-      run: ls
+      run: ls ./mask_extension
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v3
       with:
