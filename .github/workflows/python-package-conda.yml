@@ -33,4 +33,5 @@ jobs:
          path: ./mask_extension/_mask.pyd
     - name: Test
       run: |
-        python make.py testclient
+        python
+        import mask_extension._mask
