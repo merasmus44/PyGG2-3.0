@@ -21,6 +21,8 @@ jobs:
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
         echo $CONDA/bin >> $GITHUB_PATH
+    - name: update SWIG
+      run: sudo apt -y install swig
     - name: Try to compile extentions
       run: |
         python make.py build
