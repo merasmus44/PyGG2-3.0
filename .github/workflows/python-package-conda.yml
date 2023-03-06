@@ -28,7 +28,7 @@ jobs:
       run: |
         conda install sfml
     - name: 'Upload Artifact'
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
          name: built
          path: mask_extension/_mask.pyd
