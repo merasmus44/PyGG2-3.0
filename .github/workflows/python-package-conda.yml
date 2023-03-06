@@ -32,6 +32,4 @@ jobs:
          name: built
          path: ./mask_extension/_mask.pyd
     - name: Test
-      run: |
-        python
-        import mask_extension._mask
+      run: python test.py
