@@ -1,7 +1,8 @@
 
 
 import precision_timer
-import sfml
+#import sfml
+#TODO: convert this file to using pygame
 
 from .handler import Handler
 from . import networker, rendering, spectator

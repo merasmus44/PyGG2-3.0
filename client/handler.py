@@ -1,18 +1,26 @@
-import sfml.graphics
+# import sfml.graphics
+# TODO: completely convert to pygame
 import json
 import os.path
-
+import pygame
 import constants
+
+pygame.init()
 
 # manages client, switches handlers
 class ClientManager(object):
     def __init__(self, handler):
         # set display mode
-        self.window = sfml.graphics.RenderWindow(sfml.window.VideoMode(800, 600), title = "PyGG2 - Not Connected")
-        
+        # self.window = sfml.graphics.RenderWindow(sfml.window.VideoMode(800, 600), title = "PyGG2 - Not Connected")
+
+        pygame.display.set_mode((800, 600))
+        self.window = pygame.display
+        self.clock = pygame.time.Clock()
+        self.window.set_caption("PyGG2 - Not Connected")
+
         self.load_config()
-        self.window.framerate_limit = self.config.setdefault('framerate_limit', 80) #prevent 100% cpu usage
-        #self.window.vertical_synchronization = constants.VSYNC_ENABLED
+        self.framerate_limit = self.config.setdefault('framerate_limit', 80) #prevent 100% cpu usage
+        # # self.window.vertical_synchronization = constants.VSYNC_ENABLED
         self.quitting = False
         self.newhandler = None
         self.newhandler_args = []
@@ -37,6 +45,7 @@ class ClientManager(object):
                 self.handler.clearup()
                 self.handler = self.newhandler(self.window, self, *self.newhandler_args, **self.newhandler_kwargs)
                 self.newhandler = None
+            self.clock.tick(self.framerate_limit)
         self.clearup()
 
         
