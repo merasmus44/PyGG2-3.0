@@ -53,7 +53,7 @@ static PyObject* mask_copy(PyObject* self, PyObject* args) {
     bitmask_t *mask = PyMask_AsBitmap(self);
     bitmask_t *newmask;
     PyMaskObject *newobj;
-    
+
     newobj = PyObject_New(PyMaskObject, &PyMask_Type);
     newmask = bitmask_copy(mask);
     newobj->mask = newmask;
@@ -416,13 +416,13 @@ static PyObject* load_mask_from_image_PIL(PyObject* self, PyObject* args) {
 
     imIn = (Imaging) idIn;
     mask = bitmask_create(imIn->xsize, imIn->ysize, 0);
-    
+
     if (!mask) return NULL; /*RAISE(PyExc_Error, "cannot create bitmask");*/
-    
+
     maskobj = PyObject_New(PyMaskObject, &PyMask_Type);
 
     if (maskobj) maskobj->mask = mask;
-    
+
     for (y = 0; y < imIn->ysize; y++) {
         for (x = 0; x < imIn->xsize; x++) {
             if (GET_RGBA_PIXEL(imIn, x, y).a > threshold) {
@@ -443,24 +443,24 @@ static PyObject* load_mask_from_image_threshold_PIL(PyObject* self, PyObject* ar
     long idIn;
     int cr, cg, cb, ca;
     int tr, tg, tb, ta;
-    
+
     tr = tg = tb = 0;
     ta = 255;
     if (!PyArg_ParseTuple(args, "l(iiii)(iiii)", &idIn, &cr, &cg, &cb, &ca, &tr, &tg, &tb, &ta)) return NULL;
 
     imIn = (Imaging) idIn;
     mask = bitmask_create(imIn->xsize, imIn->ysize, 0);
-    
+
     if (!mask) return NULL; /*RAISE(PyExc_Error, "cannot create bitmask");*/
-    
+
     maskobj = PyObject_New(PyMaskObject, &PyMask_Type);
 
     if (maskobj) maskobj->mask = mask;
-    
+
     for (y = 0; y < imIn->ysize; y++) {
         for (x = 0; x < imIn->xsize; x++) {
             RGBAPixel px = GET_RGBA_PIXEL(imIn, x, y);
-         
+
             if ((abs(px.r - cr) <= tr) &
                 (abs(px.g - cg) <= tg) &
                 (abs(px.b - cb) <= tb)) {

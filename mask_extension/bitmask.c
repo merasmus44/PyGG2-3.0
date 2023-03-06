@@ -109,6 +109,10 @@ void bitmask_free(bitmask_t *m)
   free(m);
 }
 
+int main(){
+    return 0;
+}
+
 void bitmask_clear(bitmask_t *m)
 {
   memset(m->bits,0,m->h*((m->w - 1)/BITMASK_W_LEN + 1)*sizeof(BITMASK_W));

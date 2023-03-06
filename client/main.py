@@ -1,8 +1,8 @@
 
-
 import precision_timer
-#import sfml
-#TODO: convert this file to using pygame
+# import sfml
+import pygame
+# TODO: convert this file to using pygame
 
 from .handler import Handler
 from . import networker, rendering, spectator
@@ -22,8 +22,8 @@ class GameClientHandler(Handler):
         # create game engine object
         self.game = engine.game.Game()
 
-        self.server_password = ""# FIXME: Remove and replace with something more flexible
-        self.player_name = str(self.manager.config.setdefault('player_name', 'Tenderfoot'))
+        self.server_password = ""  # FIXME: Remove and replace with something more flexible
+        self.player_name = str(self.manager.config.setdefault('player_name', 'PyGamer'))
         
         if host and port:
             self.server_ip = host
@@ -40,13 +40,13 @@ class GameClientHandler(Handler):
         # Gets set to true when we're disconnecting, for the networker
         self.destroy = False
 
-        #Generate Dictionary
+        # Generate Dictionary
         self.pressed_dict = {}
 
-        #Whether or not the window is focused
+        # Whether or not the window is focused
         self.window_focused = True
-        
-        #precision time tracker
+
+        # precision time tracker
         self.clock = precision_timer.Clock()
         
         self.timeout_accumulator = 0.0
@@ -70,7 +70,7 @@ class GameClientHandler(Handler):
         self.fpscounter_frames = 0 # this counter will count the number of frames there are before updating the fps info
 
     def step(self):
-        #game loop
+        # game loop
         running = True
         while True:
             self.networker.recieve(self.game, self)
@@ -80,13 +80,13 @@ class GameClientHandler(Handler):
                     self.window.close()
                     break
                 leftmouse = False
-                #main input handling loop
+                # main input handling loop
                 for event in self.window.events:
-                    if isinstance(event, sfml.window.CloseEvent):#Press the 'x' button
+                    if isinstance(event, sfml.window.CloseEvent)  :  # Press the 'x' button
                         running = False
                     elif isinstance(event, sfml.window.FocusEvent):
                         self.window_focused = event.gained
-                    elif isinstance(event, sfml.window.KeyEvent): #Key handler
+                    elif isinstance(event, sfml.window.KeyEvent):  # Key handler
                         if event.code == sfml.window.Keyboard.ESCAPE:
                             running = False
                         elif event.code == sfml.window.Keyboard.LEFT:
@@ -132,7 +132,7 @@ class GameClientHandler(Handler):
                         self.game.sendbuffer.append(event)
 
                     # did we just release the F11 button? if yes, go fullscreen
-                    #if sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.F11):
+                    # if sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.F11):
                     #    self.window.fullscreen = not self.window.fullscreen
 
                 # update the game and render
@@ -153,7 +153,7 @@ class GameClientHandler(Handler):
                     self.network_update_timer += frametime
 
                 if self.fpscounter_accumulator > 1.0:
-                    #self.window.title = "PyGG2 - %d FPS" % (self.fpscounter_frames / self.fpscounter_accumulator)
+                    # self.window.title = "PyGG2 - %d FPS" % (self.fpscounter_frames / self.fpscounter_accumulator)
                     self.fpscounter_accumulator = 0.0
                     self.fpscounter_frames = 0
 
@@ -168,23 +168,23 @@ class GameClientHandler(Handler):
                     return (False)
                 # We still need to poll the window to keep it responding
                 for event in self.window.events:
-                    if isinstance(event, sfml.window.CloseEvent): #Press the 'x' button
+                    if isinstance(event, sfml.window.CloseEvent):  # Press the 'x' button
                         return (False)
-                    elif isinstance(event, sfml.window.KeyEvent): #Key handler
+                    elif isinstance(event, sfml.window.KeyEvent):  # Key handler
                         if event.code == sfml.window.Keyboard.ESCAPE:
                             return (False)
                 # TODO: writing to title currently crashes pysfml - will get fixed very soon
-                #self.window.title = "PyGG2 - Not Connected %dsecs" % (self.timeout_accumulator)
-                #Finally, if the server is not reachable, end everything.
+                # self.window.title = "PyGG2 - Not Connected %dsecs" % (self.timeout_accumulator)
+                # Finally, if the server is not reachable, end everything.
                 if self.timeout_accumulator > constants.CONNECTION_TIMEOUT:
                     print(("Unable to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))
-                    return (False) #exit
+                    return (False)  # exit
                 time.sleep(max(frametime, 0.25)) # Slow down the execution rate
         self.cleanup()
 
     def cleanup(self):
-        #clear buffer, send disconnect, and kiss and fly
+        # clear buffer, send disconnect, and kiss and fly
         event = networking.event_serialize.ClientEventDisconnect()
         self.networker.sendbuffer.append(event)
-        self.destroy = True #set flag to networker.update that we are destroying
+        self.destroy = True  # set flag to networker.update that we are destroying
         self.networker.update(self)

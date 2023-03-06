@@ -5,7 +5,11 @@ import time
 
 if sys.platform == "win32":
     # on Windows, the best timer is time.clock()
-    timerfunc = time.clock
+    try:
+        timerfunc = time.clock
+    except Exception as e:
+        print(f"Failed to use time.clock, even though using windows: {str(e)}")
+        timerfunc = time.time
 else:
     # on most other platforms, the best timer is time.time()
     timerfunc = time.time
