@@ -24,9 +24,6 @@ jobs:
     - name: Try to compile extentions
       run: |
         python make.py build
-    - name: Install dependencies
-      run: |
-        conda install sfml
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v3
       with:
