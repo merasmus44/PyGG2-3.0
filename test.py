@@ -1,1 +1,4 @@
-import mask_extension._mask
+try:
+    import mask_extension._mask
+except:
+    raise Exception
