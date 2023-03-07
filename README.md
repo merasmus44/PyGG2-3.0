@@ -3,15 +3,13 @@ PyGG2-3.0 - What is it?
 
 PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which is a python2 port of [Gang Garrison 2](http://ganggarrison.com/).
 
+HELP NEEDED
+------------
+I need help porting the python C extension files (in mask_extension) to the newest version of cython. It will take a while to do this on my own, because I don't know C very well.
 
 Why is this not working?
 ------------
 This is alot of work, specifically porting pySFML to pygame.
-
-Why are you doing this? The game has been dead for 7 years!
-------------
-Because it would be a cool project.
-Also in the hopes that this will help revive the game.
 
 Dependencies
 ------------
