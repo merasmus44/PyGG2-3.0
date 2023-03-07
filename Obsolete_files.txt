@@ -1,6 +1,5 @@
 This file contains a list of all python files that still import sfml and need to be converted to pygame
 
-\client\character_renderer.py
 \client\hud_renderer.py
 \client\input_handler.py
 \client\map_renderer.py
@@ -10,4 +9,3 @@ This file contains a list of all python files that still import sfml and need to
 \client\sentry_renderer.py
 \client\spritefont.py
 \client\weapon_renderer.py
-./function.py

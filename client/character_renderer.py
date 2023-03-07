@@ -2,7 +2,11 @@
 
 import constants
 import math
-import sfml
+
+import pygame
+
+# This file has been mostly converted to pygame
+
 import function
 from . import spritefont
 
@@ -23,32 +27,43 @@ class ClassRenderer(object):
         sprite = self.sprites[anim_frame]
         
         if character.flip:
-            sprite.ratio = sfml.system.Vector2(-1, 1)
+            sprite.ratio = pygame.math.Vector2(-1, 1)
             sprite.origin = self.spriteoffset_flipped
         else:
-            sprite.ratio = sfml.system.Vector2(1, 1)
+            sprite.ratio = pygame.math.Vector2(1, 1)
             sprite.origin = self.spriteoffset
 
         sprite.position = renderer.get_screen_coords(character.x, character.y)
 
         renderer.window.draw(sprite)
         
-        #toggle masks
+        # toggle masks
         if game.toggle_masks:
             rect_location = renderer.get_screen_coords(character.x, character.y)
             
             rect_size= character.collision_mask.get_size()
-            rect_mask = sfml.RectangleShape(rect_size)
+            rect_mask = pygame.Rect((0,0), rect_size)
             
-            rect_mask.fill_color = (sfml.Color(255,0,0,125))
+            rect_mask.fill_color = (pygame.Color(255,0,0,125))
             rect_mask.position = (rect_location)
-            renderer.window.draw(rect_mask)
+
+            renderer.window.draw(rect_mask) # we need to make sure we are drawing the correct class
         
+
+def load_class_sprites(path):
+    sprites = []
+    for i in range(4):
+        try:
+            sprites.append(pygame.image.load((constants.SPRITE_FOLDER + f"{path}{i}.png")))
+        except FileNotFoundError:
+            pass
+    return sprites
+
 
 class ScoutRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/scoutreds/%i.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/scoutreds/')
 
         self.spriteoffset = (24, 30)
         self.spriteoffset_flipped = (35, 30)
@@ -56,55 +71,61 @@ class ScoutRenderer(ClassRenderer):
 class PyroRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/pyroreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/pyroreds/')
 
         self.spriteoffset = (24, 30)
         self.spriteoffset_flipped = (35, 30)
+
 
 class SoldierRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/soldierreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/soldierreds/')
 
         self.spriteoffset = (24, 30)
         self.spriteoffset_flipped = (35, 30)
+
 
 class HeavyRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/heavyreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/heavyreds/')
 
         self.spriteoffset = (14, 30)
         self.spriteoffset_flipped = (26, 30)
 
+
 class DemomanRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/demomanreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/demomanreds/')
 
         self.spriteoffset = (24, 30)
         self.spriteoffset_flipped = (35, 30)
 
+
 class MedicRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/medicreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/medicreds/')
 
         self.spriteoffset = (23, 30)
         self.spriteoffset_flipped = (36, 30)
 
+
 class EngineerRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/engineerreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/engineerreds/')
 
         self.spriteoffset = (26, 30)
         self.spriteoffset_flipped = (36, 30)
 
+
 class SpyRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/spyreds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/spyreds/')
 
         self.spriteoffset = (22, 30)
         self.spriteoffset_flipped = (33, 30)
@@ -114,10 +135,11 @@ class SpyRenderer(ClassRenderer):
             ClassRenderer.render(self, renderer, game, state, character)
             # FIXME: Why is the character still getting drawn on the screen if cloaked?
 
+
 class QuoteRenderer(ClassRenderer):
     def __init__(self):
         self.depth = 0
-        self.sprites = [sfml.graphics.Sprite(function.load_texture((constants.SPRITE_FOLDER + "characters/quotereds/%s.png" % i))) for i in range(4)]
+        self.sprites = load_class_sprites('characters/quotereds/')
 
         self.spriteoffset = (16, -1)
         self.spriteoffset_flipped = (16, -1)
