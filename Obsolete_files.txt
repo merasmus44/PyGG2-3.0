@@ -1,4 +1,2 @@
 This file contains a list of all python files that still import sfml and need to be converted to pygame
 
-\client\sentry_renderer.py
-\client\weapon_renderer.py

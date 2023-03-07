@@ -1,7 +1,14 @@
 
 
 import math
-import sfml
+
+#import sfml
+
+import pygame
+from . import Sprite as s
+
+# This file has been mostly converted to pygame
+
 import random
 
 import function
@@ -11,7 +18,7 @@ import constants
 class BuildingSentryRenderer(object):
     def __init__(self):
         self.depth = -1
-        self.sprites = [sfml.graphics.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryred/{0}.png".format(i))) for i in range(10)]
+        self.sprites = [s.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryred/{0}.png".format(i))) for i in range(10)]
 
     def render(self, renderer, game, state, sentry):
         sprite_offset_flipped = (-12,-20)
@@ -19,14 +26,14 @@ class BuildingSentryRenderer(object):
         sprite = self.sprites[min(int(sentry.animation_frame), 9)] # TODO, get rid of this min and figure out how to cap an image index
 
         if sentry.flip == True:
-            sprite.ratio = sfml.system.Vector2(-1, 1)
+            sprite.ratio = pygame.math.Vector2(-1, 1)
             sprite.position = renderer.get_screen_coords(sentry.x + sprite_offset_flipped[0], sentry.y + sprite_offset_flipped[1])
         else:
-            sprite.ratio = sfml.system.Vector2(1, 1)
+            sprite.ratio = pygame.math.Vector2(1, 1)
             sprite.position = renderer.get_screen_coords(sentry.x + sprite_offset[0] , sentry.y + sprite_offset[1] )
 
 
-        renderer.window.draw(sprite)
+        sprite.draw(renderer.window)
 
         ##draw mask
         #w, h = sentry.collision_mask.get_size()
@@ -38,9 +45,9 @@ class BuildingSentryRenderer(object):
 class SentryRenderer(object):
     def __init__(self):
         self.depth = -1
-        self.base = sfml.graphics.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryred/11.png"))
-        self.turrets = [sfml.graphics.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryturrets/{0}.png".format(i))) for i in range(3)]
-        self.turning = [sfml.graphics.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/turretrotates/{0}.png".format(i))) for i in range(5)]
+        self.base = s.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryred/11.png"))
+        self.turrets = [s.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/sentryturrets/{0}.png".format(i))) for i in range(3)]
+        self.turning = [s.Sprite(function.load_texture(constants.SPRITE_FOLDER + "ingameelements/turretrotates/{0}.png".format(i))) for i in range(5)]
 
     def render(self, renderer, game, state, sentry):
         basesprite_offset = (-8,-20)
@@ -98,5 +105,5 @@ class SentryRenderer(object):
         #debugpoint = renderer.get_screen_coords(sentry.x + game.horizontal, sentry.y +  game.vertical)
 
 
-        renderer.window.draw(basesprite)
-        renderer.window.draw(turretsprite) #Turret overlays, so goes second
+        basesprite.draw(renderer.window)
+        turretsprite.draw(renderer.window) #Turret overlays, so goes second
