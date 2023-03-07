@@ -15,13 +15,13 @@ class ClientManager(object):
         # set display mode
         # self.window = sfml.graphics.RenderWindow(sfml.window.VideoMode(800, 600), title = "PyGG2 - Not Connected")
 
-        pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.window = pygame.display
         self.clock = pygame.time.Clock()
         self.window.set_caption("PyGG2 - Not Connected")
 
         self.load_config()
-        self.framerate_limit = self.config.setdefault('framerate_limit', 80) #prevent 100% cpu usage
+        self.framerate_limit = self.config.setdefault('framerate_limit', 80)  # prevent 100% cpu usage
         # # self.window.vertical_synchronization = constants.VSYNC_ENABLED
         self.quitting = False
         self.newhandler = None
@@ -41,13 +41,14 @@ class ClientManager(object):
         with open('client_cfg.json', 'w') as fp:
             json.dump(self.config, fp, indent=4)
 
-    def run(self):  
+    def run(self):
         while self.handler.step() and not self.quitting:
             if self.newhandler:
                 self.handler.clearup()
                 self.handler = self.newhandler(self.window, self, *self.newhandler_args, **self.newhandler_kwargs)
                 self.newhandler = None
             self.clock.tick(self.framerate_limit)
+            self.window.flip()  # Update window
         self.clearup()
 
     def switch_handler(self, handler, *args, **kwargs):

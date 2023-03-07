@@ -1,24 +1,32 @@
 
 
 import function
-import sfml
+#import sfml
+from . import Sprite as s
+
+import pygame
+
+# This file has been mostly converted
+
 import constants
+
+pygame.font.init()
 
 class SpriteFont(object):
     def __init__(self, bold=False):
         if bold:
-            self.texture = sfml.graphics.Texture.from_file(constants.SPRITE_FOLDER + 'fontbold.png')
+            self.texture = pygame.font.Font(constants.SPRITE_FOLDER + 'fontbold.png')
             self.cw = 9
             self.ch = 13
         else:
-            self.texture = sfml.graphics.Texture.from_file(constants.SPRITE_FOLDER + 'font.png')
+            self.texture = pygame.font.Font(constants.SPRITE_FOLDER + 'font.png')
             self.cw = 7
             self.ch = 13
         self.chars = []
         for char in range(256):
             #Create a sfml sprite object for each letter
-            sprite = sfml.graphics.Sprite(self.texture)
-            r = sfml.graphics.Rectangle(((char % 16) * self.cw, (char // 16) * self.ch), (self.cw, self.ch))
+            sprite = s.Sprite(self.texture)
+            r = pygame.Rect(((char % 16) * self.cw, (char // 16) * self.ch), (self.cw, self.ch))
             sprite.texture_rectangle = r
             self.chars.append(sprite)
 
@@ -32,4 +40,4 @@ class SpriteFont(object):
                 char = ord(' ')
             text = (self.chars[char])
             text.position = (x + i*self.cw,y)
-            window.draw(text)
+            text.draw(window)

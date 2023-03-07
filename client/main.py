@@ -13,11 +13,12 @@ import time
 from . import input_handler
 
 
-#this file has been (mostly) converted to pygame
+# this file has been (mostly) converted to pygame
 
 
 # handler for when client is in game
 class GameClientHandler(Handler):
+
     def __init__(self, window, manager, host=None, port=None):
         self.manager = manager
         self.window = window
@@ -51,7 +52,7 @@ class GameClientHandler(Handler):
         self.window_focused = True
 
         # precision time tracker
-        #self.clock = precision_timer.Clock()
+        # self.clock = precision_timer.Clock()
         self.clock = pygame.time.clock()
 
         self.timeout_accumulator = 0.0
@@ -181,7 +182,8 @@ class GameClientHandler(Handler):
                         if event.key == K_ESCAPE:
                             return (False)
 
-                self.window.set_caption("PyGG2 - Not Connected %dsecs" % (self.timeout_accumulator))# Update window title :)
+                self.window.set_caption(
+                    "PyGG2 - Not Connected %dsecs" % (self.timeout_accumulator))  # Update window title :)
                 # Finally, if the server is not reachable, end everything.
                 if self.timeout_accumulator > constants.CONNECTION_TIMEOUT:
                     print(("Unable to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))

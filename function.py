@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from . import Sprite as s
 import math
 
 import constants

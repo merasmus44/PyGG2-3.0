@@ -4,6 +4,7 @@ import constants
 import math
 
 import pygame
+from . import Sprite as s
 
 # This file has been mostly converted to pygame
 
@@ -35,26 +36,24 @@ class ClassRenderer(object):
 
         sprite.position = renderer.get_screen_coords(character.x, character.y)
 
-        renderer.window.draw(sprite)
+        sprite.draw(renderer.window)
         
         # toggle masks
         if game.toggle_masks:
             rect_location = renderer.get_screen_coords(character.x, character.y)
             
-            rect_size= character.collision_mask.get_size()
-            rect_mask = pygame.Rect((0,0), rect_size)
-            
-            rect_mask.fill_color = (pygame.Color(255,0,0,125))
-            rect_mask.position = (rect_location)
+            rect_size = character.collision_mask.get_size()
+            rect_mask = pygame.Rect(rect_location, rect_size)
 
-            renderer.window.draw(rect_mask) # we need to make sure we are drawing the correct class
+            pygame.draw.rect(renderer.window, pygame.Color(255,0,0,125), rect_mask) # we need to make sure we are
+            # drawing the correct class
         
 
 def load_class_sprites(path):
     sprites = []
     for i in range(4):
         try:
-            sprites.append(pygame.image.load((constants.SPRITE_FOLDER + f"{path}{i}.png")))
+            sprites.append(s.Sprite(pygame.image.load((constants.SPRITE_FOLDER + f"{path}{i}.png"))))
         except FileNotFoundError:
             pass
     return sprites
