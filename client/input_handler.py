@@ -1,7 +1,13 @@
 
 
 import struct
-import sfml
+
+
+#import sfml
+
+import pygame
+from pygame.constants import *
+from . import Sprite as s
 
 import function
 import networking.databuffer
@@ -22,23 +28,25 @@ class InputHandler(object):
         self.oldkeys = {}
     
     def gather_input(self, window, game):
+        pressed = pygame.key.get_pressed()
         self.keys = {
-                "up": sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.W),
-                "down": sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.S),
-                "left": sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.A),
-                "right": sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.D)
+                "up": pressed[K_w],
+                "down": pressed[K_s],
+                "left": pressed[K_a],
+                "right": pressed[K_d]
             }
         
         self.up = self.keys["up"]
         self.down = self.keys["down"]
         self.left = self.keys["left"]
         self.right = self.keys["right"]
+        pygame.event.get()
+        mousepress = pygame.mouse.get_pressed(num_buttons=3)
+        self.leftmouse = mousepress[0]
+        self.middlemouse = mousepress[2]
+        self.rightmouse = mousepress[1]
         
-        self.leftmouse = sfml.window.Mouse.is_button_pressed(sfml.window.Mouse.LEFT)
-        self.middlemouse = sfml.window.Mouse.is_button_pressed(sfml.window.Mouse.MIDDLE)
-        self.rightmouse = sfml.window.Mouse.is_button_pressed(sfml.window.Mouse.RIGHT)
-        
-        mouse_x, mouse_y = sfml.window.Mouse.get_position(window)
+        mouse_x, mouse_y = pygame.mouse.get_pos()
         self.aimdirection = function.point_direction(window.width / 2, window.height / 2, mouse_x, mouse_y)
         
         inputbuffer = networking.databuffer.Buffer()
