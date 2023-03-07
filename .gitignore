@@ -17,5 +17,3 @@ dist/*
 *.komodotools
 *.komodoproject
 *2pygrafix/*
-Scan_Sfml.py
-

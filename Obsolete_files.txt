@@ -1,4 +1,5 @@
-This file contains a list of all python files that still import sfml
+This file contains a list of all python files that still import sfml and need to be converted 
+
 \client\character_renderer.py
 \client\hud_renderer.py
 \client\input_handler.py
@@ -10,7 +11,7 @@ This file contains a list of all python files that still import sfml
 \client\spritefont.py
 \client\weapon_renderer.py
 ./function.py
-./Scan_Sfml.py
+./scan_sfml.py
 ./client\character_renderer.py
 ./client\hud_renderer.py
 ./client\input_handler.py
