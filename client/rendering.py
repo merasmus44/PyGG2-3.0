@@ -181,11 +181,11 @@ class GameRenderer(object):
         for hud_sprite in self.hud_sprites_low:
             hud_sprite.draw(self.window)
         # draw overlays and bars
-        for self.overlay in self.hud_overlay:
-            self.overlay.render(self, game, self.interpolated_state)
+        for overlay in self.hud_overlay: # used to be for self.overlay, but why?
+            overlay.render(self, game, self.interpolated_state)
         # draw higher hud sprites
         for hud_sprite in self.hud_sprites_top:
-            self.window.draw(hud_sprite)
+            hud_sprite.draw(self.window)
 
     def get_screen_coords(self, x, y):
         # calculate drawing position
