@@ -29,5 +29,10 @@ jobs:
     - name: Try to compile extentions
       run: |
         python make.py build
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v3
+      with:
+         name: built
+         path: ./mask_extension/_mask.pyd
     - name: Test
       run: python test.py
