@@ -17,7 +17,7 @@ Dependencies
 PyGG2-3.0 requires the following dependencies, in addition to Python 3.x:
 
 * [pygame ](https://pypi.org/project/pygame)
-* [pySFML ](https://pypi.org/project/sfml/) (CURRENTLY NOT WORKING/BEING USED!)
+* [pySFML ](https://pypi.org/project/sfml/) (optional)
 * [Python Imaging Library](https://pypi.org/project/Pillow/)
 * PyGG2-3.0 bitmask extension (compile with `python make.py build`, with `gcc` in path)
 
