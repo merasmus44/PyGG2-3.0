@@ -9,7 +9,7 @@ I need help porting the python C extension files (in mask_extension) to the newe
 
 Why is this not working?
 ------------
-This is alot of work, specifically porting pySFML to pygame.
+This is alot of work, specifically porting pySFML to pygame. Also I am currently unable to build for windows because I don't know how to link python properly to gcc 
 
 Dependencies
 ------------
