@@ -11,4 +11,3 @@ This file contains a list of all python files that still import sfml and need to
 \client\spritefont.py
 \client\weapon_renderer.py
 ./function.py
-./scan_sfml.py
