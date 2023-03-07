@@ -1,0 +1,23 @@
+This file contains a list of all python files that still import sfml
+\client\character_renderer.py
+\client\hud_renderer.py
+\client\input_handler.py
+\client\map_renderer.py
+\client\menus.py
+\client\projectile_renderer.py
+\client\rendering.py
+\client\sentry_renderer.py
+\client\spritefont.py
+\client\weapon_renderer.py
+./function.py
+./Scan_Sfml.py
+./client\character_renderer.py
+./client\hud_renderer.py
+./client\input_handler.py
+./client\map_renderer.py
+./client\menus.py
+./client\projectile_renderer.py
+./client\rendering.py
+./client\sentry_renderer.py
+./client\spritefont.py
+./client\weapon_renderer.py
