@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 import math
-import mask
-import engine.character
+
 import constants
+import engine.character
+import mask
+
+# this file was mostly converted to pygame
 
 # make pygrafix an optional import
 # if we are running the server without sfml everything will work fine
 # as long as we don't call functions in the file that use sfml
 try:
-    import sfml
+    import pygame
 except ImportError:
-    pass
-
-import os.path
-import sys
+    pygame = None  # formatting reasons
 
 
 def cmp(a, b):  # Define cmp because it is not builtin in python-3
@@ -28,7 +28,8 @@ def sign(x):
 
 def point_direction(x1, y1, x2, y2):
     angle = -math.degrees(math.atan2(y2 - y1, x2 - x1))
-    if angle < 0: angle += 360
+    if angle < 0:
+        angle += 360
     return angle
 
 
@@ -38,15 +39,17 @@ def get_cartesian(angle, length):
 
 
 def get_polar(x, y):
-    return math.atan2(y / x) * math.pi / 180, math.hypot(x, y)
+    return math.atan2(y, x) * math.pi / 180, math.hypot(x, y)  # (old): math.atan2(y / x)
 
 
 # from http://www.nanobit.net/doxy/quake3/q__math_8c-source.html LerpAngle
 def interpolate_angle(a, b, alpha):
     a, b = a % 360, b % 360
 
-    if b - a > 180: b -= 360
-    if b - a < -180: b += 360
+    if b - a > 180:
+        b -= 360
+    if b - a < -180:
+        b += 360
 
     return (a + alpha * (b - a)) % 360
 
@@ -79,7 +82,7 @@ def load_texture(filename):
         return textures[filename]
 
     # Attempt to load the texture from files
-    texture = sfml.graphics.Texture.from_file(filename)
+    texture = pygame.image.load(filename)  # Different than sfml's texture loading
     textures[filename] = texture
 
     return texture
