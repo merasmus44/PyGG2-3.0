@@ -5,7 +5,7 @@ PyGG2-3.0 is a Python3 port of  [PyGG2](https://github.com/PyGG2/PyGG2), which i
 
 HELP NEEDED
 ------------
-I need help porting the python C extension files (in mask_extension) to the newest version of cython. It will take a while to do this on my own, because I don't know C very well.
+I need help porting the python C extension files (in mask_extension) to the newest version of cython. It will take a while to do this on my own, because I don't know C very well. If you think you could help with this, go ahead and edit the file, then make a pull request with your fix.
 
 Why is this not working?
 ------------
@@ -17,7 +17,7 @@ Dependencies
 PyGG2-3.0 requires the following dependencies, in addition to Python 3.x:
 
 * [pygame ](https://pypi.org/project/pygame)
-* [pySFML ](https://pypi.org/project/sfml/) (CURRENTLY NOT WORKING/BEING USED!)
+* [pySFML ](https://pypi.org/project/sfml/) (optional)
 * [Python Imaging Library](https://pypi.org/project/Pillow/)
 * PyGG2-3.0 bitmask extension (compile with `python make.py build`, with `gcc` in path)
 

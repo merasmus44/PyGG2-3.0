@@ -1,0 +1,33 @@
+name: Build and test windows
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: setup-conda
+      uses: s-weigand/setup-conda@v1.1.1
+      with:
+    # Whether to activate the conda base env (Default: 'true')
+        activate-conda: true
+        update-conda: false
+        python-version: '3.10'
+    - name: install cython
+      run: conda install cython
+    - name: Try to compile extentions
+      run: |
+        python make.py build
+    - name: Test
+      run: python test.py
