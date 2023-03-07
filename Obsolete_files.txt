@@ -4,6 +4,5 @@ This file contains a list of all python files that still import sfml and need to
 \client\map_renderer.py
 \client\menus.py
 \client\projectile_renderer.py
-\client\rendering.py
 \client\sentry_renderer.py
 \client\weapon_renderer.py
