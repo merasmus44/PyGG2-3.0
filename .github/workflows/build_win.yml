@@ -20,8 +20,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda install cython
-        pip install pygame, py2ese
+        conda install cython py2exe pygame
     - name: update SWIG
       run: sudo apt -y install swig
     - name: Try to compile extentions
