@@ -5,6 +5,8 @@ import uuid
 import struct
 import random
 
+# this file has been mostly converted to pygame
+
 # import sfml
 
 import pygame
