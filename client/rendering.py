@@ -1,6 +1,9 @@
 
 
-import sfml
+#import sfml
+
+import pygame
+from . import Sprite as s
 
 import engine.gamestate
 import constants
@@ -26,6 +29,7 @@ class GameRenderer(object):
         self.interpolated_state = engine.gamestate.Gamestate()
         self.renderers = {}
         self.focus_object_id = None
+        self.client = client
 
         self.view_width = constants.GAME_WIDTH
         self.view_height = constants.GAME_HEIGHT
@@ -160,7 +164,7 @@ class GameRenderer(object):
 
         # clear screen if needed
         if client.spectator.x <= self.view_width / 2 or client.spectator.x + self.view_width >= game.map.width or client.spectator.y <= self.view_height / 2 or self.yview + self.view_height >= game.map.height:
-            self.window.clear()
+            self.client.window_surface.fill((0,0,0))# fill screen with black
 
         # draw background
         self.maprenderer.render(self, self.interpolated_state)
@@ -175,7 +179,7 @@ class GameRenderer(object):
 
         # draw lower hud sprites
         for hud_sprite in self.hud_sprites_low:
-            self.window.draw(hud_sprite)
+            hud_sprite.draw(self.window)
         # draw overlays and bars
         for self.overlay in self.hud_overlay:
             self.overlay.render(self, game, self.interpolated_state)
