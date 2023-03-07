@@ -1,11 +1,13 @@
 # import sfml.graphics
-# TODO: completely convert to pygame
 import json
 import os.path
 import pygame
 import constants
 
+# this file has been converted to pygame.
+
 pygame.init()
+
 
 # manages client, switches handlers
 class ClientManager(object):
@@ -48,7 +50,6 @@ class ClientManager(object):
             self.clock.tick(self.framerate_limit)
         self.clearup()
 
-        
     def switch_handler(self, handler, *args, **kwargs):
         self.newhandler = handler
         self.newhandler_args = args
@@ -57,10 +58,10 @@ class ClientManager(object):
     def quit(self):
         self.quitting = True
 
-
     def clearup(self):
-        self.window.close() 
+        self.window.quit()
         self.save_config()
+
 
 # handler base class, implements dummy handler
 class Handler(object):

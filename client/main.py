@@ -1,8 +1,8 @@
-
 import precision_timer
 # import sfml
 import pygame
-# TODO: convert this file to using pygame
+from pygame.locals import *
+# TODO: convert this file to  pygame
 
 from .handler import Handler
 from . import networker, rendering, spectator
@@ -12,6 +12,7 @@ import constants
 import networking
 import time
 from . import input_handler
+
 
 # handler for when client is in game
 class GameClientHandler(Handler):
@@ -24,7 +25,7 @@ class GameClientHandler(Handler):
 
         self.server_password = ""  # FIXME: Remove and replace with something more flexible
         self.player_name = str(self.manager.config.setdefault('player_name', 'PyGamer'))
-        
+
         if host and port:
             self.server_ip = host
             self.server_port = port
@@ -34,7 +35,8 @@ class GameClientHandler(Handler):
         print(("Trying to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))
 
         # Create the networking-handler
-        self.networker = networker.Networker((self.server_ip, int(self.server_port)), self) # FIXME: Remove these values, and replace with something easier.
+        self.networker = networker.Networker((self.server_ip, int(self.server_port)),
+                                             self)  # FIXME: Remove these values, and replace with something easier.
         self.network_update_timer = 0
 
         # Gets set to true when we're disconnecting, for the networker
@@ -48,12 +50,13 @@ class GameClientHandler(Handler):
 
         # precision time tracker
         self.clock = precision_timer.Clock()
-        
+
         self.timeout_accumulator = 0.0
+
     def start_game(self, player_id, state):
         # Only start the game once the networker has confirmed a connection with the server
 
-        # TODO REMOVE THIS
+        # TODO: REMOVE THIS
         # create player
         self.our_player_id = engine.player.Player(self.game, state, player_id).id
         self.spectator = spectator.Spectator(self.our_player_id)
@@ -65,9 +68,9 @@ class GameClientHandler(Handler):
         self.input_handler = input_handler.InputHandler()
 
         # Time tracking
-        self.inputsender_accumulator = 0.0 # this counter will accumulate time to send input at a constant rate
-        self.fpscounter_accumulator = 0.0 # this counter will tell us when to update the fps info in the title
-        self.fpscounter_frames = 0 # this counter will count the number of frames there are before updating the fps info
+        self.inputsender_accumulator = 0.0  # this counter will accumulate time to send input at a constant rate
+        self.fpscounter_accumulator = 0.0  # this counter will tell us when to update the fps info in the title
+        self.fpscounter_frames = 0  # this counter will count the number of frames there are before updating the fps info
 
     def step(self):
         # game loop
@@ -81,27 +84,29 @@ class GameClientHandler(Handler):
                     break
                 leftmouse = False
                 # main input handling loop
-                for event in self.window.events:
-                    if isinstance(event, sfml.window.CloseEvent)  :  # Press the 'x' button
+                # comverting
+                for event in pygame.event.get():
+                    if event.type == QUIT:  # Press the 'x' button
                         running = False
-                    elif isinstance(event, sfml.window.FocusEvent):
-                        self.window_focused = event.gained
-                    elif isinstance(event, sfml.window.KeyEvent):  # Key handler
-                        if event.code == sfml.window.Keyboard.ESCAPE:
+                    elif pygame.mouse.get_focused():  # Is the mouse sending inputs into the window? (focused)
+                        self.window_focused = pygame.mouse.get_focused()  # (old): event.gained > bool?
+                    elif event.type == KEYDOWN:  # Not a full keypress!
+                        if event.key == K_ESCAPE:
                             running = False
-                        elif event.code == sfml.window.Keyboard.LEFT:
+                        elif event.key == K_LEFT:
                             self.game.horizontal -= 1
-                        elif event.code == sfml.window.Keyboard.RIGHT:
+                        elif event.key == K_RIGHT:
                             self.game.horizontal += 1
-                        elif event.code == sfml.window.Keyboard.UP:
+                        elif event.key == K_UP:
                             self.game.vertical -= 1
-                        elif event.code == sfml.window.Keyboard.DOWN:
+                        elif event.key == K_DOWN:
                             self.game.vertical += 1
-                        elif event.code == sfml.window.Keyboard.L_SHIFT:
+                        elif event.key == K_LSHIFT:
                             print(("HORIZONTAL OFFSET = " + str(self.game.horizontal)))
                             print(("VERTICAL OFFSET = " + str(self.game.vertical)))
 
                 # handle input if window is focused
+                # VVVV Convert down from here VVVV
                 if self.window_focused:
                     if sfml.window.Keyboard.is_key_pressed(sfml.window.Keyboard.NUM1):
                         event = networking.event_serialize.ClientEventChangeclass(constants.CLASS_SCOUT)
@@ -137,10 +142,10 @@ class GameClientHandler(Handler):
 
                 # update the game and render
                 frametime = self.clock.tick()
-                frametime = min(0.25, frametime) # a limit of 0.25 seconds to prevent complete breakdown
+                frametime = min(0.25, frametime)  # a limit of 0.25 seconds to prevent complete breakdown
 
                 self.fpscounter_accumulator += frametime
-                
+
                 self.networker.recieve(self.game, self)
                 self.input_handler.gather_input(self.window, self.game)
                 self.game.update(self.networker, frametime)
@@ -179,7 +184,7 @@ class GameClientHandler(Handler):
                 if self.timeout_accumulator > constants.CONNECTION_TIMEOUT:
                     print(("Unable to connect to " + str(self.server_ip) + " at port: " + str(self.server_port)))
                     return (False)  # exit
-                time.sleep(max(frametime, 0.25)) # Slow down the execution rate
+                time.sleep(max(frametime, 0.25))  # Slow down the execution rate
         self.cleanup()
 
     def cleanup(self):
