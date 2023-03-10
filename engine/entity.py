@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 
-
 # every entity should inherit from this
+
 class Entity(object):
     def __init__(self, game, state):
         # create entity and register it
@@ -28,6 +28,7 @@ class Entity(object):
     def endstep(self, game, state, frametime): pass
 
 # simple object implementing movement
+
 class MovingObject(Entity):
     def __init__(self, game, state):
         Entity.__init__(self, game, state)

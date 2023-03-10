@@ -12,6 +12,7 @@ import networking.event_serialize
 from . import event_handler
 from . import player
 
+
 class Networker(object):
     def __init__(self, port):
         self.port = port
@@ -22,7 +23,6 @@ class Networker(object):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind(("", self.port))
         self.socket.setblocking(False)
-
 
     def update(self, server, game, frametime):
         # update everyone
@@ -36,7 +36,6 @@ class Networker(object):
 
         # Clear the slate afterwards
         self.sendbuffer = []
-
 
     def generate_snapshot_update(self, state):
         snapshotbuffer = networking.databuffer.Buffer()
@@ -54,7 +53,6 @@ class Networker(object):
         event.time = state.time
 
         return event
-
 
     def service_new_player(self, server, game, newplayer):
         statebuffer = networking.databuffer.Buffer()
@@ -77,7 +75,7 @@ class Networker(object):
 
         hello_event = networking.event_serialize.ServerEventHello(server.name, newplayer.id,  server.game.maxplayers, state.map.mapname, constants.GAME_VERSION_NUMBER)
         map_event = networking.event_serialize.ServerChangeMap(state.map.mapname)
-        events  = [hello_event, map_event, networking.event_serialize.ServerEventFullUpdate(statebuffer)]
+        events = [hello_event, map_event, networking.event_serialize.ServerEventFullUpdate(statebuffer)]
         for event in events:
             event.time = state.time
         
@@ -95,9 +93,9 @@ class Networker(object):
                 break
 
             # FIXME: Uncomment these as soon as networking debugging is done. I commented this out because it messed with Traceback.
-            #try:
+            # try:
             packet.unpack(data)
-            #except:
+            # except:
             #    # parse error, don't throw exception but print it
             #    print("Parse error: %s" % sys.exc_info()[1])
             #    continue # drop packet

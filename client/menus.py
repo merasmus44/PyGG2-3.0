@@ -135,13 +135,14 @@ class MainMenuHandler(MenuHandler):
 
     def draw(self, hoveritem):
         self.menubg.draw(self.window)
-        rect = pygame.Rect((0,0), (200, 600)) #The (0,0) position might be problematic
+        rect = pygame.Rect((0, 0), (200, 600))  # The (0,0) position might be problematic
         pygame.draw.rect(self.window, rect, self.color)
 
         super(MainMenuHandler, self).draw(hoveritem)
 
 
 # handler for lobby
+# noinspection PyTypeChecker
 class LobbyHandler(MenuHandler):
     def join_server(self, host, port):
         self.manager.switch_handler(GameClientHandler, host, port)
@@ -239,16 +240,18 @@ class LobbyHandler(MenuHandler):
 
             if server['compatible']:
                 label = '{0} - [{1}]'.format(server['name'], server['playerstring'])
+                # noinspection PyTypeChecker
                 self.menuitems.append((label, LobbyHandler.join_server, [server['ip'], server['port']]))
             else:
                 label = '[INCOMPATIBLE: {0} {1}]: {2}'.format(server['infos']['game_short'],
                                                               server['infos']['game_ver'], server['name'])
+                # noinspection PyTypeChecker
                 self.menuitems.append((label, LobbyHandler.display_info, [server['infos']['game_url']]))
         return super(LobbyHandler, self).step()
 
     def draw(self, hoveritem):
         self.menubg.draw(self.window)
-        rect = pygame.Rect((0,0), (200, 600)) # (0,0) position might be problematic
+        rect = pygame.Rect((0, 0), (200, 600))  # (0,0) position might be problematic
         pygame.draw.rect(self.window, rect, self.color)
 
         super(LobbyHandler, self).draw(hoveritem)

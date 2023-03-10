@@ -11,6 +11,7 @@ from . import Sprite as s
 import function
 from . import spritefont
 
+
 class ClassRenderer(object):
     def __init__(self):
         
@@ -45,7 +46,7 @@ class ClassRenderer(object):
             rect_size = character.collision_mask.get_size()
             rect_mask = pygame.Rect(rect_location, rect_size)
 
-            pygame.draw.rect(renderer.window, pygame.Color(255,0,0,125), rect_mask) # we need to make sure we are
+            pygame.draw.rect(renderer.window, pygame.Color(255, 0, 0, 125), rect_mask)  # we need to make sure we are
             # drawing the correct class
         
 
@@ -66,6 +67,7 @@ class ScoutRenderer(ClassRenderer):
 
         self.spriteoffset = (24, 30)
         self.spriteoffset_flipped = (35, 30)
+
 
 class PyroRenderer(ClassRenderer):
     def __init__(self):

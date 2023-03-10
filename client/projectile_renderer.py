@@ -3,7 +3,7 @@
 import math
 
 
-#import sfml
+# import sfml
 
 import pygame
 from . import Sprite as s
@@ -12,6 +12,7 @@ import random
 
 import function
 import constants
+
 
 class ShotRenderer(object):
     def __init__(self):
@@ -43,7 +44,7 @@ class FlameRenderer(object):
         if flame.flight_time < 0:
             return
 
-        #sprite animation
+        # sprite animation
         if self.currentindex == -1:
             self.currentindex = 0
         else:
@@ -54,9 +55,10 @@ class FlameRenderer(object):
 
         sprite = self.flamesprite[self.currentindex]
 
-        sprite.position = renderer.get_screen_coords(flame.x,flame.y)
+        sprite.position = renderer.get_screen_coords(flame.x, flame.y)
 
         sprite.draw(renderer.window)
+
 
 class RocketRenderer(object):
     def __init__(self):
@@ -76,6 +78,7 @@ class RocketRenderer(object):
 
         sprite.draw(renderer.window)
 
+
 class MineRenderer(object):
     def __init__(self):
         self.depth = 1
@@ -91,6 +94,7 @@ class MineRenderer(object):
         sprite.position = renderer.get_screen_coords(mine.x, mine.y)
 
         sprite.draw(renderer.window)
+
 
 class NeedleRenderer(object):
     def __init__(self):
@@ -110,6 +114,7 @@ class NeedleRenderer(object):
         sprite.position = renderer.get_screen_coords(needle.x, needle.y)
 
         sprite.draw(renderer.window)
+
 
 class BladeRenderer(object):
     def __init__(self):

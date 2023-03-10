@@ -1,10 +1,15 @@
 
 
-import sys, os, platform, os.path
-import glob, shutil
+import sys
+import os
+import platform
+import os.path
+import glob
+import shutil
 import subprocess
 import distutils.sysconfig
 import fnmatch
+
 
 def remove(patterns):
     matches = set()
@@ -14,8 +19,11 @@ def remove(patterns):
                 matches.add(os.path.join(root, filename))
 
     for filename in matches:
-        try: os.remove(filename)
-        except: pass
+        try:
+            os.remove(filename)
+        except (FileNotFoundError, IsADirectoryError, PermissionError):
+            pass
+
 
 def printUsage():
     print("Usage:")
@@ -27,6 +35,7 @@ def printUsage():
     print("    menuclient - runs PyGG2 in client mode, going to the main menu")
     print("    testserver - runs PyGG2 in server mode")
     print("    test - runs PyGG2 in server mode and launched PyGG2 in client mode, connecting on loopback")
+
 
 if len(sys.argv) == 1:
     printUsage()
@@ -61,8 +70,10 @@ elif sys.argv[1] == "clean":
         "profile.txt"
     ]
     remove(patterns)
-    try: shutil.rmtree("dist")
-    except: pass
+    try:
+        shutil.rmtree("dist")
+    except (FileNotFoundError, PermissionError):
+        pass
 elif sys.argv[1] == "testclient":
     import client_main
 #    client_main.profileGG2()

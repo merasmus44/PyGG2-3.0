@@ -7,6 +7,7 @@ sys.path.append("../")
 import function, constants
 from networking import event_serialize
 
+
 def Client_Event_Changeclass(networker, game, state, senderplayer, event):
     player = state.players[senderplayer.id]
     # TODO: If any, add classlimits here
@@ -33,23 +34,24 @@ def Client_Event_Changeclass(networker, game, state, senderplayer, event):
     spawn_event = event_serialize.ServerEventSpawn(player.id, 2300, 50)
     game.sendbuffer.append(spawn_event)
 
+
 def Client_Event_Jump(networker, game, state, senderplayer, event):
     player = state.players[senderplayer.id]
     # TODO: Add lag compensation, if any, here.
     player.up = True
 
+
 def Client_Inputstate(networker, game, state, senderplayer, event):
     player = state.players[senderplayer.id]
     player.deserialize_input(event.internalbuffer)
 
+
 def Client_Event_Disconnect(networker, game, state, senderplayer, event):
     player = state.players[senderplayer.id]
-    print((player.name +" has disconnected"))
+    print((player.name + " has disconnected"))
     senderplayer.destroy(networker, game, state)
 
+
 # Gather the functions together to easily be called by the event ID
-eventhandlers = {}
-eventhandlers[constants.EVENT_PLAYER_CHANGECLASS] = Client_Event_Changeclass
-eventhandlers[constants.EVENT_JUMP] = Client_Event_Jump
-eventhandlers[constants.INPUTSTATE] = Client_Inputstate
-eventhandlers[constants.EVENT_PLAYER_DISCONNECT] = Client_Event_Disconnect
+eventhandlers = {constants.EVENT_PLAYER_CHANGECLASS: Client_Event_Changeclass, constants.EVENT_JUMP: Client_Event_Jump,
+                 constants.INPUTSTATE: Client_Inputstate, constants.EVENT_PLAYER_DISCONNECT: Client_Event_Disconnect}

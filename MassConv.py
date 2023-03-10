@@ -2,6 +2,7 @@ import os
 pyfiles = []
 blacklist = []
 
+
 def walk(path):
     global pyfiles
     for path, subdirs, files in os.walk(path):
@@ -18,7 +19,6 @@ def walk(path):
                         break
                 if not skip:
                     pyfiles.append(str(os.path.join(path, name)))
-
 
 
 walk(os.curdir)

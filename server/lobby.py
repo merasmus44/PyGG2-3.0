@@ -1,9 +1,12 @@
 
 
-import socket, struct, uuid
+import socket
+import struct
+import uuid
 
 import constants
 import random
+
 
 class Lobby(object):
 
@@ -13,8 +16,9 @@ class Lobby(object):
 
     def __init__(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # FIXME: This script needs to wait for the server to initialize everything properly before sending stuff (like map name)
-        # I'm just adding an initial delay for now, but this is a terrible way to do it and should be replaced
+        # FIXME: This script needs to wait for the server to initialize everything properly before sending stuff (
+        #  like map name) I'm just adding an initial delay for now, but this is a terrible way to do it and should be
+        #  replaced
         self.timer = 5
 
     def update(self, server, frametime):
@@ -24,7 +28,6 @@ class Lobby(object):
             self.timer = 30
         else:
             self.timer -= frametime
-
 
     def build_reg_packet(self, server):
         packet = ""
@@ -52,8 +55,8 @@ class Lobby(object):
         packet += struct.pack(">H", server.port)
 
         # Max number of players, current number of players and current number of AI players
-        #packet += struct.pack(">HHH", server.game.maxplayers, len(server.game.current_state.players), 0)# There are no AI players in mainstream.
-        packet += struct.pack(">HHH", self.max_players, self.num_players, 0)# AJF's troll
+        # packet += struct.pack(">HHH", server.game.maxplayers, len(server.game.current_state.players), 0)# There are no AI players in mainstream.
+        packet += struct.pack(">HHH", self.max_players, self.num_players, 0)  # AJF's troll
         # Password protected?
         packet += struct.pack(">H", 0)
 
@@ -74,7 +77,6 @@ class Lobby(object):
         packet += struct.pack(">B8sH"+str(len(constants.GAME_URL))+"s", 8, "game_url", len(constants.GAME_URL), constants.GAME_URL)
 
         return packet
-
 
     def destroy(self, server):
         packet = ""

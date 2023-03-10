@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 
-
 # add our main folder as include dir
-import sys, uuid
+import sys
+import uuid
 sys.path.append("../")
 
 import precision_timer, time
@@ -19,6 +19,7 @@ import pstats
 import os
 
 # the main function
+
 class Server(object):
     def __init__(self):
         self.load_config()
@@ -41,7 +42,7 @@ class Server(object):
             print(("No map rotation file named {0} found! Exiting.".format(self.map_rotation)))
             sys.exit(1)
         # ignore any line starting with a #
-        self.game.map_rotation =  [line.rstrip() for line in file.readlines() if not line.startswith("#")]
+        self.game.map_rotation = [line.rstrip() for line in file.readlines() if not line.startswith("#")]
         file.close()
 
         # create packet handler
@@ -63,7 +64,7 @@ class Server(object):
             try:
                 # update the game and render
                 frametime = self.clock.tick()
-                frametime = min(0.25, frametime) # a limit of 0.25 seconds to prevent complete breakdown
+                frametime = min(0.25, frametime)  # a limit of 0.25 seconds to prevent complete breakdown
 
                 self.networker.recieve(self, self.game)
                 self.game.update(self.networker, frametime)
@@ -87,7 +88,6 @@ class Server(object):
         with open('server_cfg.json', 'w') as fp:
             json.dump(self.config, fp, indent=4)
 
-
     def destroy(self):
         self.lobbyannouncer.destroy(self)
 
@@ -99,8 +99,10 @@ def profileGG2():
     p.print_stats(30)
     os.remove("game_profile")
 
+
 def GG2main():
     Server().run()
+
 
 if __name__ == "__main__":
     # when profiling:

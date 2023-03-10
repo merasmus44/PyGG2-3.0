@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 
-
 from . import entity
 import mask
 from . import character
 import math
 import function
 
+
 class Building_Sentry(entity.MovingObject):
-    max_hp = 100 # Maximum hitpoints the sentry can ever have
-    starting_hp = 25 # At what hitpoints the sentry will start building
-    collision_mask = mask.Mask(26, 19, True) # TODO: Implement changing masks
-    build_time = 2 # Number of secs it takes to build
+    max_hp = 100  # Maximum hitpoints the sentry can ever have
+    starting_hp = 25  # At what hitpoints the sentry will start building
+    collision_mask = mask.Mask(26, 19, True)  # TODO: Implement changing masks
+    build_time = 2  # Number of secs it takes to build
     hp_increment = (max_hp-starting_hp)/build_time
-    animation_increment = 10/build_time # 10 == number of frames in sentry build animation
+    animation_increment = 10/build_time  # 10 == number of frames in sentry build animation
 
     def __init__(self, game, state, owner):
         super(Building_Sentry, self).__init__(game, state)
@@ -29,7 +29,7 @@ class Building_Sentry(entity.MovingObject):
         self.y = owner.y
         self.team = owner.team
 
-        if owner.flip == True:
+        if owner.flip is True:
             self.flip = True
         else:
             self.flip = False
@@ -99,11 +99,11 @@ class Sentry(entity.MovingObject):
 
         self.rotatestart = 0
         self.rotateend = 4
-        self.rotateindex = self.rotatestart;
+        self.rotateindex = self.rotatestart
         self.default_direction = 180 * self.flip
         self.direction = self.default_direction
 
-        #targetting Queue
+        # targetting Queue
         self.nearest_target = -1
         self.target_queue = []
 
@@ -113,29 +113,29 @@ class Sentry(entity.MovingObject):
 
         if self.hp <= 0:
             self.destroy(state)
-        self.target_queue = [] #clear the list
+        self.target_queue = []  # clear the list
         for obj in list(state.entities.values()):
-                if isinstance(obj, character.Character) and math.hypot(self.x-obj.x,self.y - obj.y) <= self.detection_radius:
-                    target_tuple = (obj, math.hypot(self.x-obj.x,self.y - obj.y))
-                    self.target_queue.append(target_tuple)
-        if len(self.target_queue) > 0: #TODO: implement point_direction and adjust priorities accordingly
-            self.target_queue.sort(key= lambda distance: distance[1]) #sort by the second item in the tuples; distance
-            self.nearest_target = self.target_queue[0][0] #get the first part of tuple
+            if isinstance(obj, character.Character) and math.hypot(self.x-obj.x, self.y - obj.y) <= self.detection_radius:
+                target_tuple = (obj, math.hypot(self.x-obj.x, self.y - obj.y))
+                self.target_queue.append(target_tuple)
+        if len(self.target_queue) > 0:  # TODO: implement point_direction and adjust priorities accordingly
+            self.target_queue.sort(key=lambda distance: distance[1])  # sort by the second item in the tuples; distance
+            self.nearest_target = self.target_queue[0][0]  # get the first part of tuple
             target_character = state.entities[self.nearest_target.id]
-            target_angle = function.point_direction(self.x,self.y,target_character.x,target_character.y)
+            target_angle = function.point_direction(self.x, self.y, target_character.x, target_character.y)
             self.direction = target_angle
-            if target_character.x > self.x and self.turret_flip == True:
+            if target_character.x > self.x and self.turret_flip is True:
                 self.rotating = True
-            elif target_character.x < self.x and self.turret_flip == False:
+            elif target_character.x < self.x and self.turret_flip is False:
                 self.rotating = True
         else:
             self.nearest_target = -1
 
-        if self.nearest_target == -1 and self.flip != self.turret_flip: #reset to old position
+        if self.nearest_target == -1 and self.flip != self.turret_flip:  # reset to old position
             self.rotating = True
             self.direction = self.default_direction
 
-        if self.rotating == True:
+        if self.rotating is True:
             self.rotateindex += 0.15
             if (self.rotateindex >= self.rotateend):
                 self.rotating = False
@@ -148,10 +148,14 @@ class Sentry(entity.MovingObject):
         self.direction = prev_obj.direction + (next_obj.direction - prev_obj.direction) * alpha
 
         self.rotateindex = prev_obj.rotateindex + (next_obj.rotateindex - prev_obj.rotateindex) * alpha
-        if alpha < 0.5: self.rotating = prev_obj.rotating
-        else: self.rotating = next_obj.rotating
-        if alpha < 0.5: self.turret_flip = prev_obj.turret_flip
-        else: self.turret_flip = next_obj.turret_flip
+        if alpha < 0.5:
+            self.rotating = prev_obj.rotating
+        else:
+            self.rotating = next_obj.rotating
+        if alpha < 0.5:
+            self.turret_flip = prev_obj.turret_flip
+        else:
+            self.turret_flip = next_obj.turret_flip
 
     def destroy(self, state):
         # TODO: Sentry destruction syncing, bubble

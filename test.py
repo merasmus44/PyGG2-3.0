@@ -1,4 +1,4 @@
-#a series of imports and other stuff that will fail if they don't work
+# a series of imports and other stuff that will fail if they don't work
 import os
 os.system("pip install colorama")
 from colorama import Fore

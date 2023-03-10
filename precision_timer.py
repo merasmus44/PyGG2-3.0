@@ -14,6 +14,7 @@ else:
     # on most other platforms, the best timer is time.time()
     timerfunc = time.time
 
+
 class Clock(object):
     def __init__(self):
         self.lasttime = timerfunc()
@@ -30,5 +31,6 @@ class Clock(object):
         return dt
 
     def getfps(self):
-        if self.frametime == 0: return 0
+        if self.frametime == 0:
+            return 0
         return 1 / self.frametime

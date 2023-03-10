@@ -5,6 +5,7 @@ from . import character
 import function
 from networking import event_serialize
 
+
 class Player(object):
     def __init__(self, game, state, id):
         self.id = id
@@ -33,7 +34,7 @@ class Player(object):
     def step(self, game, state, frametime):
         # Only do this on the server
         if game.isserver:
-            if self.character_id == None:# If the character is dead
+            if self.character_id is None:  # If the character is dead
                 if self.respawntimer <= 0:
                     # Respawn
                     self.spawn(game, state)
@@ -44,7 +45,7 @@ class Player(object):
                     self.respawntimer -= frametime
 
     def spawn(self, game, state):
-        if self.character_id != None:
+        if self.character_id is not None:
             # There is already a character on the field. This should never happen.
             print("Tryed to spawn character while old one was still alive.")
 
@@ -56,7 +57,7 @@ class Player(object):
         char.y = 50
 
     def copy(self):
-        new = Player.__new__(Player) # create class without invoking __init__
+        new = Player.__new__(Player)   # create class without invoking __init__
         new.__dict__.update(self.__dict__)
         return new
 

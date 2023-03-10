@@ -36,7 +36,7 @@ class HealthRenderer(HudRenderer):
         my_class_number = str(function.convert_class(my_class_type))
 
         self.hudsprite = s.Sprite(function.load_texture \
-            (constants.SPRITE_FOLDER + "huds/characterhud/ " + my_class_number + ".png"))
+                                      (constants.SPRITE_FOLDER + "huds/characterhud/ " + my_class_number + ".png"))
         # function.load_texture calls pygame.image.load, no need to call it twice
 
         self.health_box_background = None
@@ -69,7 +69,7 @@ class HealthRenderer(HudRenderer):
         self.health_box = DrawRectangle()
         self.health_box.location = \
             (52, min((renderer.view_height - 12), (renderer.view_height - 53) + (39 - 39 * abs(health_percentage))))
-        self.health_box.size = (40, max(0, 39 * health_percentage))
+        self.health_box.size = (40, max(0, int(39 * health_percentage)))
 
         if health_percentage > 0.5:
             exponent = 2  # The higher this will be, the quicker will the change happen, and the flatter will the
@@ -97,7 +97,8 @@ class AmmoRenderer(HudRenderer):
             team = "0"
         else:
             team = "1"
-        self.hudsprite = s.Sprite(function.load_texture(constants.SPRITE_FOLDER + "huds/ammo/" + spritepath + "/" + team + ".png"))
+        self.hudsprite = s.Sprite(
+            function.load_texture(constants.SPRITE_FOLDER + "huds/ammo/" + spritepath + "/" + team + ".png"))
         self.background_bar.location = self.bar.location
         self.background_bar.color = pygame.Color(0, 0, 0, 255)
         self.bar.color = pygame.Color(217, 217, 183, 255)

@@ -3,6 +3,7 @@
 import engine.gamestate
 import constants
 
+
 class Spectator(object):
     def __init__(self, playerid):
         self.x = 0

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 import math
 import random
 
@@ -12,6 +11,7 @@ from . import sentry
 from networking import event_serialize
 
 # abstract class, don't directly instantiate
+
 class Weapon(entity.Entity):
     def __init__(self, game, state, owner_id):
         super(Weapon, self).__init__(game, state)
@@ -72,6 +72,7 @@ class Weapon(entity.Entity):
     def deserialize(self, state, packetbuffer):
         self.ammo, self.reloadalarm = packetbuffer.read("Bf")
 
+
 class Scattergun(Weapon):
     maxammo = 6
     refiretime = .5
@@ -98,15 +99,17 @@ class Scattergun(Weapon):
             self.reloadalarm = self.reloadtime
             self.ammo = max(0, self.ammo-1)
 
+
 class Flamethrower(Weapon):
     maxammo = 200
     refiretime = 1/30
     reloadtime = 3/4
-    length = 40 # Flamethrower sprite length
+    length = 40  # Flamethrower sprite length
 
     def fire_primary(self, game, state):
         projectile.Flame(game, state, self.id)
         self.refirealarm = self.refiretime
+
 
 class Rocketlauncher(Weapon):
     maxammo = 4
@@ -119,6 +122,7 @@ class Rocketlauncher(Weapon):
             self.refirealarm = self.refiretime
             self.reloadalarm = self.reloadtime
             self.ammo = max(0, self.ammo-1)
+
 
 class Minigun(Weapon):
     maxammo = 8
@@ -137,6 +141,7 @@ class Minigun(Weapon):
             projectile.Shot(game, state, self.id, self.shotdamage, direction, speed)
 
             self.refirealarm = self.refiretime
+
 
 class Minegun(Weapon):
     maxammo = 200
@@ -157,6 +162,7 @@ class Minegun(Weapon):
     def fire_secondary(self, game, state):
         while len(self.mines) > 0:
             self.mines[0].destroy(game, state)
+
 
 class Shotgun(Weapon):
     maxammo = 4
@@ -185,9 +191,10 @@ class Shotgun(Weapon):
 
     def fire_secondary(self, game, state):
         owner = state.entities[self.owner_id]
-        if owner.sentry != None:
+        if owner.sentry is not None:
             owner.sentry.destroy(state)
         owner.sentry = sentry.Building_Sentry(game, state, owner)
+
 
 class Medigun(Weapon):
     maxammo = 40
@@ -225,6 +232,7 @@ class Medigun(Weapon):
         else:
             self.reloadalarm -= frametime
 
+
 class Revolver(Weapon):
     maxammo = 6
     refiretime = 3/5
@@ -240,12 +248,13 @@ class Revolver(Weapon):
                 self.refirealarm = self.refiretime
                 self.reloadalarm = self.reloadtime
                 self.ammo = max(0, self.ammo-1)
-            #else: Stab
+            # else: Stab
 
     def fire_secondary(self, game, state):
         owner = state.entities[self.owner_id]
-        owner.cloaking = not owner.cloaking# Any ideas how to add a good gradient?
+        owner.cloaking = not owner.cloaking  # Any ideas how to add a good gradient?
         print(("Cloaking: ", owner.cloaking, "| is very unresponsive because it doesn't check for pressing, just whether RMB is being held."))
+
 
 class Blade(Weapon):
     maxammo = 4

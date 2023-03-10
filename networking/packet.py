@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 # add our main folder as include dir
 import sys
 sys.path.append("../")
@@ -9,6 +8,7 @@ sys.path.append("../")
 from . import event_serialize
 import constants
 from . import databuffer
+
 
 class Packet(object):
     def __init__(self, sender):

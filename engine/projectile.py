@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 import math
 import random
 
@@ -11,10 +10,11 @@ import function
 import mask
 import constants
 
+
 class Shot(entity.MovingObject):
     shot_hitmasks = {}
 
-    fade_time = 0.8 # seconds of fading when max_flight_time is being reached
+    fade_time = 0.8  # seconds of fading when max_flight_time is being reached
     max_flight_time = 1.5
 
     def __init__(self, game, state, sourceweapon_id, damage, direction, speed):
@@ -56,7 +56,8 @@ class Shot(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/shots/0.png").rotate(angle)
             self.shot_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP) or self.flight_time >= self.max_flight_time:
             # calculate unit speeds (speeds normalized into the range 0-1)
             h_unit_speed = math.cos(math.radians(self.direction))
@@ -81,7 +82,7 @@ class Shot(entity.MovingObject):
 class Needle(entity.MovingObject):
     shot_hitmasks = {}
 
-    fade_time = 0.8 # seconds of fading when max_flight_time is being reached
+    fade_time = 0.8  # seconds of fading when max_flight_time is being reached
     max_flight_time = 3
 
     def __init__(self, game, state, sourceweapon_id, damage, direction, speed):
@@ -123,7 +124,8 @@ class Needle(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/needles/0.png").rotate(angle)
             self.shot_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP) or self.flight_time > self.max_flight_time:
             # calculate unit speeds (speeds normalized into the range 0-1)
             h_unit_speed = math.cos(math.radians(self.direction))
@@ -148,7 +150,7 @@ class Needle(entity.MovingObject):
 class Rocket(entity.MovingObject):
     rocket_hitmasks = {}
 
-    fade_time = .3 # seconds of fading when max_flight_time is being reached
+    fade_time = .3  # seconds of fading when max_flight_time is being reached
     max_flight_time = 20
 
     damage = 35
@@ -199,7 +201,8 @@ class Rocket(entity.MovingObject):
                         x *= f
                         y = function.sign(y)*h/2
 
-                    # x and y are now the positions of the point on the edge of the collision rectangle nearest to the rocket
+                    # x and y are now the positions of the point on the edge of the collision rectangle nearest to
+                    # the rocket
 
                     # now get the vector from the rocket to that point, and store it in x and y
                     x = (obj.x+x) - self.x
@@ -213,13 +216,10 @@ class Rocket(entity.MovingObject):
         super(Rocket, self).destroy(state)
 
     def step(self, game, state, frametime):
-        # FIXME: MAKE THIS WORK FOR NEGATIVE frametime!
-        # GMK-GG2 tried to emulate basic acceleration and air resistance with two simple instructions:
-        #   [execute 30 times per second]
-        #   speed += 1
-        #   speed *= 0.92
-        # Underneath is the same thing converted to work with frametime.
-        # PS: If you ever have the chance, please bash whoever had the idea of a non-standard exponential function for a rocket in an 8-bit game on the head. Thank you.
+        # FIXME: MAKE THIS WORK FOR NEGATIVE frametime! GMK-GG2 tried to emulate basic acceleration and air
+        #  resistance with two simple instructions: [execute 30 times per second] speed += 1 speed *= 0.92 Underneath
+        #  is the same thing converted to work with frametime. PS: If you ever have the chance, please bash whoever
+        #  had the idea of a non-standard exponential function for a rocket in an 8-bit game on the head. Thank you.
         self.speed /= 30
         n = 30 * frametime
         self.speed = (0.92**n) * self.speed + 0.92*((1 - (0.92**n))/(1 - 0.92))
@@ -240,7 +240,8 @@ class Rocket(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/rockets/0.png").rotate(angle)
             self.rocket_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP) or self.flight_time >= self.max_flight_time:
             self.destroy(game, state, frametime)
 
@@ -301,7 +302,8 @@ class Mine(entity.MovingObject):
                     x *= f
                     y = function.sign(y)*h/2
 
-                # x and y are now the positions of the point on the edge of the collision rectangle nearest to the rocket
+                # x and y are now the positions of the point on the edge of the collision rectangle nearest to the
+                # rocket
 
                 # now get the vector from the rocket to that point, and store it in x and y
                 x = (obj.x+x) - self.x
@@ -331,7 +333,8 @@ class Mine(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/rockets/0.png").rotate(angle)
             self.mine_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP):
             stickied = True
             self.hspeed = 0
@@ -368,9 +371,8 @@ class Flame(entity.MovingObject):
         self.hspeed = math.cos(math.radians(self.direction)) * self.speed + srcchar.hspeed
         self.vspeed = math.sin(math.radians(self.direction)) * -self.speed + srcchar.vspeed
 
-
     def step(self, game, state, frametime):
-        #Gravitational force
+        # Gravitational force
         self.vspeed += 4.5*frametime
 
     def endstep(self, game, state, frametime):
@@ -386,16 +388,17 @@ class Flame(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/flames/0.png").rotate(angle)
             self.flame_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP) or self.flight_time > self.max_flight_time:
             self.destroy(state)
-
 
     def interpolate(self, prev_obj, next_obj, alpha):
         super(Flame, self).interpolate(prev_obj, next_obj, alpha)
         self.direction = function.interpolate_angle(prev_obj.direction, next_obj.direction, alpha)
 
         self.flight_time = prev_obj.flight_time + (next_obj.flight_time - prev_obj.flight_time) * alpha
+
 
 class Blade(entity.MovingObject):
     shot_hitmasks = {}
@@ -442,7 +445,8 @@ class Blade(entity.MovingObject):
             mask = function.load_mask(constants.SPRITE_FOLDER + "projectiles/needles/0.png").rotate(angle)
             self.shot_hitmasks[angle] = mask
 
-        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative time collisions. Is there a better method?
+        # FIXME: "and self.flight_time > constants.PHYSICS_TIMESTEP" is an extremely hacky way to prevent negative
+        #  time collisions. Is there a better method?
         if ((state.map.collision_mask.overlap(mask, (int(round(self.x)), int(round(self.y))))) and self.flight_time >= constants.PHYSICS_TIMESTEP) or self.flight_time >= self.max_flight_time:
             # calculate unit speeds (speeds normalized into the range 0-1)
             h_unit_speed = math.cos(math.radians(self.direction))

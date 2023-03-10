@@ -3,7 +3,7 @@
 import struct
 
 
-#import sfml
+# import sfml
 
 import pygame
 from pygame.constants import *
@@ -12,6 +12,7 @@ from . import Sprite as s
 import function
 import networking.databuffer
 import networking.event_serialize
+
 
 class InputHandler(object):
     def __init__(self):
@@ -53,7 +54,6 @@ class InputHandler(object):
         self.serialize_input(inputbuffer)
         event = networking.event_serialize.ClientEventInputstate(inputbuffer)
         game.sendbuffer.append(event)
-
 
     def serialize_input(self, packetbuffer):
         keybyte = 0

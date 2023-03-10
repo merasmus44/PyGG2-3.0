@@ -6,7 +6,8 @@ sys.path.append("../")
 
 import engine.map
 import engine.player
-import function, constants
+import function
+import constants
 from networking import event_serialize
 
 
@@ -21,22 +22,27 @@ def Server_Event_Hello(client, networker, game, state, event):
     game.map = engine.map.Map(game, event.mapname)
     client.start_game(player_id, state)
 
+
 def Server_Event_Player_Join(client, networker, game, state, event):
     newplayer = engine.player.Player(game, state, event.id)
     newplayer.name = event.name
     
+
 def Server_Event_Changeclass(client, networker, game, state, event):
     player = state.players[event.playerid]
     player.nextclass = function.convert_class(event.newclass)
+
 
 def Server_Event_Die(client, networker, game, state, event):
     player = state.players[event.playerid]
     character = state.entities[player.character_id]
     character.die(game, state)
 
+
 def Server_Event_Spawn(client, networker, game, state, event):
     player = state.players[event.playerid]
     player.spawn(game, state)
+
 
 def Server_Snapshot_Update(client, networker, game, state, event):
     for player in list(state.players.values()):
@@ -48,6 +54,7 @@ def Server_Snapshot_Update(client, networker, game, state, event):
         except KeyError:
             # Character is dead
             pass
+
 
 def Server_Full_Update(client, networker, game, state, event):
     numof_players = event.internalbuffer.read("B")
@@ -63,10 +70,12 @@ def Server_Full_Update(client, networker, game, state, event):
         if character_exists:
             player.spawn(game, state)
 
+
 def Server_Event_Disconnect(client, networker, game, state, event):
     player = state.players[event.playerid]
-    print((player.name +" has disconnected"))
+    print((player.name + " has disconnected"))
     player.destroy(game, state)
+
 
 def Server_Event_Fire_Primary(client, networker, game, state, event):
     player = state.players[event.playerid]
@@ -78,6 +87,7 @@ def Server_Event_Fire_Primary(client, networker, game, state, event):
         # character is dead or something. Shouldn't happen, so print something
         print("Error: Firing event called for dead or non-existent character!")
 
+
 def Server_Event_Fire_Secondary(client, networker, game, state, event):
     player = state.players[event.playerid]
     try:
@@ -88,20 +98,17 @@ def Server_Event_Fire_Secondary(client, networker, game, state, event):
         # character is dead or something. Shouldn't happen, so print something
         print("Error: Firing event called for dead or non-existent character!")
 
+
 def Server_Event_Change_Map(client, networker, game, state, event):
     state.map = engine.map.Map(game, event.mapname)
 
 
 # Gather the functions together to easily be called by the event ID
-eventhandlers = {}
-eventhandlers[constants.EVENT_HELLO] = Server_Event_Hello
-eventhandlers[constants.EVENT_PLAYER_JOIN] = Server_Event_Player_Join
-eventhandlers[constants.EVENT_PLAYER_CHANGECLASS] = Server_Event_Changeclass
-eventhandlers[constants.EVENT_PLAYER_DIE] = Server_Event_Die
-eventhandlers[constants.EVENT_PLAYER_SPAWN] = Server_Event_Spawn
-eventhandlers[constants.SNAPSHOT_UPDATE] = Server_Snapshot_Update
-eventhandlers[constants.FULL_UPDATE] = Server_Full_Update
-eventhandlers[constants.EVENT_PLAYER_DISCONNECT] = Server_Event_Disconnect
-eventhandlers[constants.EVENT_FIRE_PRIMARY] = Server_Event_Fire_Primary
-eventhandlers[constants.EVENT_FIRE_SECONDARY] = Server_Event_Fire_Secondary
-eventhandlers[constants.EVENT_CHANGE_MAP] = Server_Event_Change_Map
+eventhandlers = {constants.EVENT_HELLO: Server_Event_Hello, constants.EVENT_PLAYER_JOIN: Server_Event_Player_Join,
+                 constants.EVENT_PLAYER_CHANGECLASS: Server_Event_Changeclass,
+                 constants.EVENT_PLAYER_DIE: Server_Event_Die, constants.EVENT_PLAYER_SPAWN: Server_Event_Spawn,
+                 constants.SNAPSHOT_UPDATE: Server_Snapshot_Update, constants.FULL_UPDATE: Server_Full_Update,
+                 constants.EVENT_PLAYER_DISCONNECT: Server_Event_Disconnect,
+                 constants.EVENT_FIRE_PRIMARY: Server_Event_Fire_Primary,
+                 constants.EVENT_FIRE_SECONDARY: Server_Event_Fire_Secondary,
+                 constants.EVENT_CHANGE_MAP: Server_Event_Change_Map}

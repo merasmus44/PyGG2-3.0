@@ -7,15 +7,18 @@ clientevents = {}
 serverevents = {}
 
 # decorators to register classes as events, and add time everywhere
+
 def clientevent(cls):
     clientevents[cls.eventid] = cls
     cls.time = 0
     return cls
 
+
 def serverevent(cls):
     serverevents[cls.eventid] = cls
     cls.time = 0
     return cls
+
 
 @serverevent
 class ServerEventPlayerJoin(object):
@@ -31,6 +34,7 @@ class ServerEventPlayerJoin(object):
     def unpack(self, packetbuffer):
         self.id, self.name = packetbuffer.read("H32p")
 
+
 @clientevent
 class ClientEventHello(object):
     eventid = constants.EVENT_HELLO
@@ -44,6 +48,7 @@ class ClientEventHello(object):
 
     def unpack(self, packetbuffer):
         self.name, self.password = packetbuffer.read("32p32p")
+
 
 @serverevent
 class ServerEventHello(object):
@@ -62,6 +67,7 @@ class ServerEventHello(object):
     def unpack(self, packetbuffer):
         self.servername, self.playerid, self.maxplayers, self.mapname, self.version = packetbuffer.read("32pBB64pH")
 
+
 @clientevent
 class ClientEventJump(object):
     eventid = constants.EVENT_JUMP
@@ -71,6 +77,7 @@ class ClientEventJump(object):
 
     def unpack(self, packetbuffer):
         pass
+
 
 @serverevent
 class ServerEventChangeclass(object):
@@ -88,6 +95,7 @@ class ServerEventChangeclass(object):
     def unpack(self, packetbuffer):
         self.playerid, self.newclass = packetbuffer.read("HB")
 
+
 @clientevent
 class ClientEventChangeclass(object):
     eventid = constants.EVENT_PLAYER_CHANGECLASS
@@ -100,6 +108,7 @@ class ClientEventChangeclass(object):
 
     def unpack(self, packetbuffer):
         self.newclass = packetbuffer.read("B")
+
 
 @serverevent
 class ServerEventSpawn(object):
@@ -116,6 +125,7 @@ class ServerEventSpawn(object):
     def unpack(self, packetbuffer):
         self.playerid, self.x, self.y = packetbuffer.read("BII")
 
+
 @serverevent
 class ServerEventDie(object):
     eventid = constants.EVENT_PLAYER_DIE
@@ -128,6 +138,7 @@ class ServerEventDie(object):
 
     def unpack(self, packetbuffer):
         self.playerid = packetbuffer.read("B")
+
 
 @clientevent
 class ClientEventInputstate(object):
@@ -144,6 +155,7 @@ class ClientEventInputstate(object):
         length = packetbuffer.read("H")
         self.internalbuffer = databuffer.Buffer(packetbuffer.read("{0}s".format(length)))
 
+
 @serverevent
 class ServerEventSnapshotUpdate(object):
     eventid = constants.SNAPSHOT_UPDATE
@@ -158,6 +170,7 @@ class ServerEventSnapshotUpdate(object):
     def unpack(self, packetbuffer):
         length = packetbuffer.read("H")
         self.internalbuffer = databuffer.Buffer(packetbuffer.read("{0}s".format(length)))
+
 
 @serverevent
 class ServerEventFullUpdate(object):
@@ -174,6 +187,7 @@ class ServerEventFullUpdate(object):
         length = packetbuffer.read("H")
         self.internalbuffer = databuffer.Buffer(packetbuffer.read("{0}s".format(length)))
 
+
 @clientevent
 class ClientEventDisconnect(object):
     eventid = constants.EVENT_PLAYER_DISCONNECT
@@ -183,6 +197,7 @@ class ClientEventDisconnect(object):
 
     def unpack(self, packetbuffer):
         pass
+
 
 @serverevent
 class ServerEventDisconnect(object):
@@ -197,6 +212,7 @@ class ServerEventDisconnect(object):
     def unpack(self, packetbuffer):
         self.playerid = packetbuffer.read("B")
 
+
 @serverevent
 class ServerEventFirePrimary(object):
     eventid = constants.EVENT_FIRE_PRIMARY
@@ -210,6 +226,7 @@ class ServerEventFirePrimary(object):
     def unpack(self, packetbuffer):
         self.playerid = packetbuffer.read("B")
 
+
 @serverevent
 class ServerEventFireSecondary(object):
     eventid = constants.EVENT_FIRE_SECONDARY
@@ -222,6 +239,7 @@ class ServerEventFireSecondary(object):
 
     def unpack(self, packetbuffer):
         self.playerid = packetbuffer.read("B")
+
 
 @serverevent
 class ServerChangeMap(object):

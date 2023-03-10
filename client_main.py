@@ -9,8 +9,10 @@ import cProfile
 import pstats
 import os
 
+
 def profileGG2():
     cProfile.run("GG2main()", sort="time")
+
 
 def GG2main(skipmenu=False):
     if skipmenu:
@@ -18,6 +20,7 @@ def GG2main(skipmenu=False):
     else:
         cm = ClientManager(MainMenuHandler)
     cm.run()
+
 
 if __name__ == "__main__":
     # when profiling:

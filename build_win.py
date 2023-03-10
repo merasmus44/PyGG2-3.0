@@ -12,25 +12,25 @@ use_py2exe = True
 
 try:
     shutil.rmtree("dist")
-except:
+except (FileNotFoundError, NotADirectoryError):
     pass
 if use_py2exe:
     sys.argv = [sys.argv[0], "py2exe"]
     print("building")
     setup(
-      console = ["client_main.py"],
-      project_name = "pygg2",
-       project_url = "http://github.com/nightcracker/PyGG2",
-       project_version = "0.1",
-       license = "GPL v3",
-      author_name = "nightcracker / Orpheon",
-      author_email = "nightcracker@nclabs.org",
-      copyright = "Copyright (c) 2011",
-      project_description = "Python implementation of Gang Garrison 2",
+      console=["client_main.py"],
+      project_name="pygg2",
+      project_url="http://github.com/nightcracker/PyGG2",
+      project_version="0.1",
+      license="GPL v3",
+      author_name="nightcracker / Orpheon",
+      author_email="nightcracker@nclabs.org",
+      copyright="Copyright (c) 2011",
+      project_description="Python implementation of Gang Garrison 2",
 
-      zipfile = "dependencies.dat",
-      options = {
-          "py2exe" : {
+      zipfile="dependencies.dat",
+      options={
+          "py2exe": {
              "optimize": 2,
                 "bundle_files": 2,
             }
@@ -41,12 +41,12 @@ if use_py2exe:
 
     try:
         start = time.clock()
-    except:
+    except (ModuleNotFoundError, SyntaxError, AttributeError):
         start = time.time()
     while not os.path.exists("dist\\dependencies.dat"):
         try:
             now = time.clock()
-        except:
+        except (ModuleNotFoundError, SyntaxError, AttributeError):
             now = time.time()
 
         if (now - start) > 1:

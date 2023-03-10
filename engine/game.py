@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 import math
 
 from . import map
@@ -10,13 +9,14 @@ import function
 import constants
 
 # the main engine class
+
 class Game:
     def __init__(self):
         self.maxplayers = 8
         self.servername = ""
         self.isserver = False
 
-        #DEBUGTOOL
+        # DEBUGTOOL
         self.toggle_masks = False
         
         # This list stores all client-made states for interpolating when receiving something from the server
@@ -34,13 +34,14 @@ class Game:
         # A second time counter to make a smooth rendering possible
         self.rendering_time = 0.0
 
-        # This is a hack to allow game objects to append stuff to the networking event queue without having to pass networker around
+        # This is a hack to allow game objects to append stuff to the networking event queue without having to pass
+        # networker around
         self.sendbuffer = []
 
         # this accumulator is used to update the engine in fixed timesteps
         self.accumulator = 0.0
-        #These variables are useful for modifying to change the offsets of objects ingame
-        #DEBUGTOOL
+        # These variables are useful for modifying to change the offsets of objects ingame
+        # DEBUGTOOL
         self.horizontal = 0
         self.vertical = 0
 

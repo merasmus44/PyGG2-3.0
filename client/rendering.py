@@ -1,6 +1,6 @@
 
 
-#import sfml
+# import sfml
 
 import pygame
 from . import Sprite as s
@@ -15,12 +15,13 @@ from . import character_renderer
 from . import weapon_renderer
 from . import projectile_renderer
 from . import sentry_renderer
-#import spectator
+# import spectator
 import engine.character
 import engine.weapon
 import engine.projectile
 import engine.sentry
 from . import hud_renderer
+
 
 class GameRenderer(object):
     def __init__(self, client):
@@ -53,7 +54,7 @@ class GameRenderer(object):
             engine.weapon.Rocketlauncher: weapon_renderer.RocketlauncherRenderer(),
             engine.weapon.Minigun: weapon_renderer.MinigunRenderer(),
             engine.weapon.Minegun: weapon_renderer.MinegunRenderer(),
-            engine.weapon.Medigun : weapon_renderer.MedigunRenderer(),
+            engine.weapon.Medigun: weapon_renderer.MedigunRenderer(),
             engine.weapon.Shotgun: weapon_renderer.ShotgunRenderer(),
             engine.weapon.Revolver: weapon_renderer.RevolverRenderer(),
             engine.weapon.Blade: weapon_renderer.BladeRenderer(),
@@ -106,7 +107,7 @@ class GameRenderer(object):
             # Take the oldest one and move it back in time
             self.interpolated_state = states[0].copy()
             self.interpolated_state.update_all_objects(game, target_time - self.interpolated_state.time)
-        #elif states[-1].time < target_time:
+        # elif states[-1].time < target_time:
         #    # Even our most current state isn't "up-to-date" enough
         #    # We can't do better than use it
         #    self.interpolated_state = states[-1].copy()
@@ -133,7 +134,7 @@ class GameRenderer(object):
 
         focus_object_id = self.interpolated_state.players[client.our_player_id].character_id
 
-        if focus_object_id != None:
+        if focus_object_id is not None:
             client.spectator.x = self.interpolated_state.entities[focus_object_id].x
             client.spectator.y = self.interpolated_state.entities[focus_object_id].y
 
@@ -145,9 +146,9 @@ class GameRenderer(object):
             self.healthhud.render(self, game, self.interpolated_state, focus_object_id)
 
         else:
-            if self.ammohud != None:
+            if self.ammohud is not None:
                 self.ammohud = None
-            if self.healthhud != None:
+            if self.healthhud is not None:
                 self.healthhud = None
             player = self.interpolated_state.players[client.our_player_id]
             if player.left:
@@ -164,7 +165,7 @@ class GameRenderer(object):
 
         # clear screen if needed
         if client.spectator.x <= self.view_width / 2 or client.spectator.x + self.view_width >= game.map.width or client.spectator.y <= self.view_height / 2 or self.yview + self.view_height >= game.map.height:
-            self.client.window_surface.fill((0,0,0))# fill screen with black
+            self.client.window_surface.fill((0, 0, 0))  # fill screen with black
 
         # draw background
         self.maprenderer.render(self, self.interpolated_state)
@@ -173,7 +174,8 @@ class GameRenderer(object):
         for entity in list(self.interpolated_state.entities.values()):
             self.rendering_stack.append(entity)
 
-        self.rendering_stack.sort(key=lambda entityobject: self.renderers[type(entityobject)].depth) # Reorder by depth attribute
+        self.rendering_stack.sort(key=lambda entityobject: self.renderers[type(entityobject)].depth)  # Reorder by
+        # depth attribute
         for entity in self.rendering_stack:
             self.renderers[type(entity)].render(self, game, self.interpolated_state, entity)
 
@@ -181,7 +183,7 @@ class GameRenderer(object):
         for hud_sprite in self.hud_sprites_low:
             hud_sprite.draw(self.window)
         # draw overlays and bars
-        for overlay in self.hud_overlay: # used to be for self.overlay, but why?
+        for overlay in self.hud_overlay:  # used to be for self.overlay, but why?
             overlay.render(self, game, self.interpolated_state)
         # draw higher hud sprites
         for hud_sprite in self.hud_sprites_top:

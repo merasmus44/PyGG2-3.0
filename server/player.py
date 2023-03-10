@@ -8,6 +8,7 @@ import networking
 import engine.player
 import constants
 
+
 class Player(object):
     def __init__(self, networker, game, name, address):
         # generate id
@@ -49,7 +50,6 @@ class Player(object):
             self.time_since_update %= constants.NETWORK_UPDATE_RATE
             self.send_packet(networker, game)
 
-
     def send_packet(self, networker, game):
         packet = networking.packet.Packet("server")
         packet.sequence = self.sequence
@@ -63,11 +63,10 @@ class Player(object):
         snapshot = networker.generate_snapshot_update(game.current_state)
         packet.events.insert(0, (self.sequence, snapshot))
 
-        packetbuffer = packet.pack()# TODO: Compression would be here
+        packetbuffer = packet.pack()  # TODO: Compression would be here
         networker.socket.sendto(packetbuffer.data, self.address)
 
         self.sequence = (self.sequence + 1) % 65535
-    
     
     def send_fullupdate(self, networker, game, events):
         packet = networking.packet.Packet("server")
@@ -80,11 +79,10 @@ class Player(object):
         snapshot = networker.generate_snapshot_update(game.current_state)
         packet.events.append((0, snapshot))
     
-        packetbuffer = packet.pack()# TODO: Compression would be here
+        packetbuffer = packet.pack()  # TODO: Compression would be here
         networker.socket.sendto(packetbuffer.data, self.address)
 
         self.sequence = (self.sequence + 1) % 65535
-
 
     def destroy(self, networker, game, state):
         player = state.players[self.id]

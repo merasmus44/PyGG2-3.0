@@ -11,6 +11,7 @@ import networking.packet
 import networking.event_serialize
 from . import event_handler
 
+
 class Networker(object):
     def __init__(self, server_address, client):
         self.server_address = server_address
@@ -59,7 +60,6 @@ class Networker(object):
 
                 self.socket.sendto(data, self.server_address)
 
-
         while True:
             packet = networking.packet.Packet("server")
 
@@ -69,10 +69,11 @@ class Networker(object):
                 # recvfrom throws socket.error if there was no packet to read
                 break
 
-            # FIXME: Uncomment these as soon as networking debugging is done. I commented this out because it messed with Traceback.
-            #try:
+            # FIXME: Uncomment these as soon as networking debugging is done. I commented this out because it messed
+            #  with Traceback.
+            # try:
             packet.unpack(data)
-            #except:
+            # except:
             #    # parse error, don't throw exception but print it
             #    print("Parse error: %s" % sys.exc_info()[1])
             #    continue # drop packet
@@ -176,14 +177,12 @@ class Networker(object):
                     index -= 1
                 index += 1
 
-
     def generate_inputdata(self, client):
         our_player = client.game.current_state.players[client.our_player_id]
         inputbuffer = networking.databuffer.Buffer()
         our_player.serialize_input(inputbuffer)
         event = networking.event_serialize.ClientEventInputstate(inputbuffer)
         return event
-
 
     def update(self, client):
         # Unload the whole sendbuffer here, and add the sequence

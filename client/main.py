@@ -6,7 +6,8 @@ from pygame.locals import *
 from .handler import Handler
 from . import networker, rendering, spectator
 import function
-import engine.game, engine.player
+import engine.game
+import engine.player
 import constants
 import networking
 import time
@@ -74,7 +75,8 @@ class GameClientHandler(Handler):
         # Time tracking
         self.inputsender_accumulator = 0.0  # this counter will accumulate time to send input at a constant rate
         self.fpscounter_accumulator = 0.0  # this counter will tell us when to update the fps info in the title
-        self.fpscounter_frames = 0  # this counter will count the number of frames there are before updating the fps info
+        self.fpscounter_frames = 0  # this counter will count the number of frames there are before updating the fps
+        # info
 
     def step(self):
         # game loop
@@ -83,7 +85,7 @@ class GameClientHandler(Handler):
             self.networker.recieve(self.game, self)
             if self.networker.has_connected:
                 # check if user exited the game
-                if not self.window.is_open or running == False:
+                if not self.window.is_open or running is False:
                     self.window.close()
                     break
                 leftmouse = False

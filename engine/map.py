@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 
-
 import function
+
 
 class Map(object):
     def __init__(self, game, mapname):
